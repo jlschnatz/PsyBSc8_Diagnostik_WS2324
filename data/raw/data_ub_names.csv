@@ -1,0 +1,36 @@
+id_item,id_name
+id_case,<b> id_case </b> ~ Case ID
+dd_alter,<b> dd_alter </b> ~ Wie alt sind Sie?
+dd_sex,<b> dd_sex </b> ~ Welchem Geschlecht fühlen Sie sich zugehörig?
+dd_wohn1,<b> dd_wohn1 </b> ~ Ich wohne...
+dd_wohn2,<b> dd_wohn2 </b> ~ Ich wohne...
+dd_bildung,<b> dd_bildung </b> ~ Höchster Bildungsabschluss
+ub_01,<b> ub_01 </b> ~ Ich trenne Müll
+ub_02,<b> ub_02 </b> ~ Ich stecke nicht-benutzte Elektrogeräte aus
+ub_03,<b> ub_03 </b> ~ Ich nutze Strom aus erneuerbaren Energien
+ub_04,<b> ub_04 </b> ~ Ich nutze den ÖPNV
+ub_05,<b> ub_05 </b> ~ Ich schalte das Licht in nicht-genutzten Räumen aus
+ub_06,<b> ub_06 </b> ~ Ich achte beim Einkauf von Elektrogeräten auf Umweltsiegel
+ub_07,"<b> ub_07 </b> ~ Wenn ich lüfte, mache ich die Heizung aus"
+ub_08,<b> ub_08 </b> ~ Ich fahre sprit-sparend Auto
+ub_09,<b> ub_09 </b> ~ Ich achte beim Klamottenkauf auf kurze Lieferwege
+ub_10,<b> ub_10 </b> ~ Ich verkaufe/spende/ verschenke gebrauchte Gegenstände
+ub_11,<b> ub_11 </b> ~ Ich beschreibe Vorder- und Rückseite eines Blattes
+ub_12,<b> ub_12 </b> ~ Ich benutze Einmal-Hygiene Artikel
+ub_13,<b> ub_13 </b> ~ Bei Kurzstrecken laufe ich
+ub_14,<b> ub_14 </b> ~ Ich esse Fleisch
+ub_15,<b> ub_15 </b> ~ Ich kaufe regionale Lebensmittel
+ub_16,<b> ub_16 </b> ~ Ich kaufe unverpackte Lebensmittel
+ub_17,<b> ub_17 </b> ~ Ich werfe Lebensmittel weg
+ub_18,<b> ub_18 </b> ~ Ich kaufe Second-Hand-Kleidung
+ub_19,<b> ub_19 </b> ~ Ich achte beim Kauf von Hygieneartikeln auf biologisch abbaubare Inhaltsstoffe
+ub_20,<b> ub_20 </b> ~ Ich verzichte auf tierische Produkte
+ub_21,<b> ub_21 </b> ~ Ich nehme an Food-Sharing-Projekten teil
+ub_22,<b> ub_22 </b> ~ Ich lasse beim Spülen das Wasser laufen
+ub_23,<b> ub_23 </b> ~ An öffentlichen Orten hinterlasse ich Müll
+ub_24,<b> ub_24 </b> ~ Ich benutze wieder-verwendbare Behältnisse
+ub_25,<b> ub_25 </b> ~ Ich bewege mich bei Kurstrecken mit dem Fahrrad fort
+ub_26,<b> ub_26 </b> ~ Ich fliege Kurzstrecken
+ub_27,<b> ub_27 </b> ~ Ich esse Fleisch aus Massentierhaltung
+ub_28,<b> ub_28 </b> ~ Ich kaufe Second-Hand-Möbel
+ub_29,<b> ub_29 </b> ~ Ich fliege in den Urlaub

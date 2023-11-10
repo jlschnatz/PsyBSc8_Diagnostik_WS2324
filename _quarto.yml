@@ -1,0 +1,26 @@
+project:
+  output-dir: output
+  type: default
+
+toc: true
+number-sections: true
+
+format:
+  html:
+    title     : "PsyBSc8 R Script"
+    author    : "Luca Schnatz & Arieja Farugie"
+    affiliation: "Institut für Psychologie, Goethe Universität"
+    html-math-method: katex
+    mainfont: "Avenir"
+    code-overflow: wrap
+    code-block-bg: true
+    smooth-scroll: true
+    self-contained: true
+    toc: true
+    touch: true
+    theme: zephyr
+    toc-title: "Inhalt"
+    highlight-style: kate
+    css: "styles.css"
+
+
