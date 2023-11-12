@@ -4,6 +4,7 @@ project:
 
 toc: true
 number-sections: true
+engine: knitr
 
 format:
   html:
@@ -11,7 +12,7 @@ format:
     author    : "Luca Schnatz & Arieja Farugie"
     affiliation: "Institut für Psychologie, Goethe Universität"
     html-math-method: katex
-    mainfont: "Avenir"
+    mainfont: "Avenir Next"
     code-overflow: wrap
     code-block-bg: true
     smooth-scroll: true
@@ -19,8 +20,25 @@ format:
     toc: true
     touch: true
     theme: zephyr
+    fontsize: 13pt
     toc-title: "Inhalt"
     highlight-style: kate
     css: "styles.css"
+    bibliography: "references.bib"
+    csl: "apa.csl"
+    grid: 
+      sidebar-width: 0px
+      margin-width: 300px
+      body-width: 1200px
+      gutter-width: 100px
+    include-in-header:
+    - text: |
+        <style>
+        .panel-tabset > .nav-tabs,
+        .panel-tabset > .tab-content {
+          border: none;
+        }
+        </style>
+      
 
 

@@ -68,7 +68,8 @@ data_raw <- readr::read_csv2("data/raw/data_ub_raw.csv") %>%
     labels = c("Hauptschulabschluss", "Realschulabschluss", "Abitur", "Berufsausbildung", "Hochschulabschluss")
   )) %>%
   # re-reverse inverse items (after this step they are again inverse)
-  mutate(across(all_of(inverse_items), ~sjmisc::rec(.x, rec = "rev"))) 
+  mutate(across(all_of(inverse_items), ~sjmisc::rec(.x, rec = "rev"))) %>%
+  mutate(across(starts_with("ub_"), ~.x - 1))
 
 data_names <- read_csv("data/raw/data_ub_names.csv")
 
@@ -81,12 +82,12 @@ write_rds(data_raw_names, "data/raw/data_ub_raw.rds")
 # Item Data ----
 
 
-data_raw_names
+data_item <- data_raw %>% select(starts_with("ub_"))
 
-tab_itemscale(data_raw_names, factor.groups.titles = "Itemanalyse 1")
+tab_itemscale(data_item, factor.groups.titles = "Itemanalyse 1")
 
 
-step1_kick_diff <- extract_itemtable(data_item_labelled) %>%
+step1_kick_diff <- extract_itemtable(data_item) %>%
   filter(item_difficulty < .2 | item_difficulty > .8) %>%
   pull(id_item)
 
