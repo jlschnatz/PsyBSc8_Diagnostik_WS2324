@@ -6,17 +6,19 @@ abstract-title: "Zusammenfassung"
 title-block-banner: true
 title-block-categories: true
 title-block-banner-color: "white"
-abstract:  "In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde."
+abstract:  "In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde."
 ---
 
 ## Einleitung
 
-Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu **Umweltbewusstsein**, welches die Einstellung von Personen gegenüber dem Umweltschutz widerspiegelt. Spezifisch wurde dieses Konstrukt auf der Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 Proband:innen.
+Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu **Umweltbewusstsein**, welcher die Einstellung von Personen gegenüber dem Umweltschutz misst. Spezifisch wurde dieses Konstrukt auf Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 teilnehmenden Personen. In der folgenden Tabelle erhaltet ihr eine Übersicht über die Items des Konstrukts.
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+
+
 library(dplyr)
 vec_label <- readRDS(here::here("data/raw/data_ub_raw_lab.rds")) %>%
   dplyr::select(dplyr::starts_with("ub_")) %>%
@@ -26,21 +28,21 @@ sjPlot::tab_df(as.data.frame(vec_label), title = "Übersichtstabelle der Items z
 
 ```
 
-Der Datensatz ist in diesem Fall als `rds`-Datei gespeichert und kann mittels base-R (`readRDS()`) oder des readr-Package (`readr::read_rds()`) eingelesen werden.
+Der Datensatz ist in diesem Fall als `.rds`-Datei gespeichert und kann mittels der Funktion (`readRDS()`) eingelesen werden.
 
 ::: callout-note
 ## Information zum Einlesen von Daten
 
-Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format repräsentiert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder Komma, Semikolon oder Tab Separator) einzulesen, können entweder base-R Funktionen (`read.csv()`, `read.csv2()` oder `read.delim()`) oder z.B. Funktionen des *readr-*Packages aus der Familie des [*tidyverse*](https://www.tidyverse.org/) genutzt werden (`read_csv()`, `read_csv2()` und `read_tsv()`). Um hingegen Excel-Dateien lesen zu können, kann das *readxl*-Package genutzt werden (`read_excel()`)
+Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format gespeichert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder -Komma, -Semikolon oder Tab-Separator) einzulesen, können entweder Base-R Funktionen (`read.csv()`, `read.csv2()` bzw. `read.delim()`) oder z.B. Funktionen des *readr-*Packages aus der Familie des [*tidyverse*](https://www.tidyverse.org/) genutzt werden (`read_csv()`, `read_csv2()` und `read_tsv()`). Um Excel-Dateien einlesen zu können, kann das *readxl*-Package genutzt werden (`read_excel()`)
 :::
 
-Wir laden sowohl den gesamten Datensatz und speichern zudem ein subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um sich einen ersten Überblick zu schaffen, sind zum Beispiel `skim()` oder `str()`.
+Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel `skim()` oder `str()`. Um selbst den Datensatz einzulesen, könnt ihr entweder aus OLAT den Datensatz herunterladen, euer Working Directory richtig einstellen (`setwd()`) und dann mit `readRDS("path/to/directory")` die Daten laden. Eine andere Möglichkeit ist es, den Permalink aus dem zugehörigen Github-Repositroy zu nutzen
 
 ```{r}
 #| message: false
 library(dplyr) # Datenmanipulation
 library(here) # Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())
-library(skimr) # Hilfreich für Überblick von dataframes
+library(skimr) # Hilfreich für Überblick vonDdataframes
 
 data_raw <- readRDS(here::here("data/raw/data_ub_raw.rds")) 
 data_item <- data_raw %>% dplyr::select(ub_01:ub_29) # oder select(starts_with("ub_"))
