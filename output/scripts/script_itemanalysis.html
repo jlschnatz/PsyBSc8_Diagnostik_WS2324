@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Luca Schnatz &amp; Arieja Farugie">
-<meta name="dcterms.date" content="2023-11-12">
+<meta name="dcterms.date" content="2023-11-13">
 
 <title>PsyBSc8 R Script</title>
 <style>
@@ -3105,7 +3105,7 @@ word-wrap: break-word
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 12, 2023</p>
+        <p class="date">November 13, 2023</p>
       </div>
     </div>
     
@@ -3115,7 +3115,7 @@ word-wrap: break-word
   <div>
     <div class="abstract">
       <div class="abstract-title">Zusammenfassung</div>
-      In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
+      In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
     </div>
   </div>
   
@@ -3145,7 +3145,7 @@ word-wrap: break-word
 
 <section id="einleitung" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="einleitung"><span class="header-section-number">1</span> Einleitung</h2>
-<p>Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu <strong>Umweltbewusstsein</strong>, welches die Einstellung von Personen gegenüber dem Umweltschutz widerspiegelt. Spezifisch wurde dieses Konstrukt auf der Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 Proband:innen.</p>
+<p>Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu <strong>Umweltbewusstsein</strong>, welcher die Einstellung von Personen gegenüber dem Umweltschutz misst. Spezifisch wurde dieses Konstrukt auf Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 teilnehmenden Personen. In der folgenden Tabelle erhaltet ihr eine Übersicht über die Items des Konstrukts.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
@@ -3247,7 +3247,7 @@ word-wrap: break-word
 
 </div>
 </div>
-<p>Der Datensatz ist in diesem Fall als <code>rds</code>-Datei gespeichert und kann mittels base-R (<code>readRDS()</code>) oder des readr-Package (<code>readr::read_rds()</code>) eingelesen werden.</p>
+<p>Der Datensatz ist in diesem Fall als <code>.rds</code>-Datei gespeichert und kann mittels der Funktion (<code>readRDS()</code>) eingelesen werden.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3258,14 +3258,14 @@ Information zum Einlesen von Daten
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format repräsentiert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder Komma, Semikolon oder Tab Separator) einzulesen, können entweder base-R Funktionen (<code>read.csv()</code>, <code>read.csv2()</code> oder <code>read.delim()</code>) oder z.B. Funktionen des <em>readr-</em>Packages aus der Familie des <a href="https://www.tidyverse.org/"><em>tidyverse</em></a> genutzt werden (<code>read_csv()</code>, <code>read_csv2()</code> und <code>read_tsv()</code>). Um hingegen Excel-Dateien lesen zu können, kann das <em>readxl</em>-Package genutzt werden (<code>read_excel()</code>)</p>
+<p>Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format gespeichert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder -Komma, -Semikolon oder Tab-Separator) einzulesen, können entweder Base-R Funktionen (<code>read.csv()</code>, <code>read.csv2()</code> bzw. <code>read.delim()</code>) oder z.B. Funktionen des <em>readr-</em>Packages aus der Familie des <a href="https://www.tidyverse.org/"><em>tidyverse</em></a> genutzt werden (<code>read_csv()</code>, <code>read_csv2()</code> und <code>read_tsv()</code>). Um Excel-Dateien einlesen zu können, kann das <em>readxl</em>-Package genutzt werden (<code>read_excel()</code>)</p>
 </div>
 </div>
-<p>Wir laden sowohl den gesamten Datensatz und speichern zudem ein subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um sich einen ersten Überblick zu schaffen, sind zum Beispiel <code>skim()</code> oder <code>str()</code>.</p>
+<p>Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel <code>skim()</code> oder <code>str()</code>. Um selbst den Datensatz einzulesen, könnt ihr entweder aus OLAT den Datensatz herunterladen, euer Working Directory richtig einstellen (<code>setwd()</code>) und dann mit <code>readRDS(&quot;path/to/directory&quot;)</code> die Daten laden. Eine andere Möglichkeit ist es, den Permalink aus dem zugehörigen Github-Repositroy zu nutzen</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># Datenmanipulation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># Hilfreich für Überblick von dataframes</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># Hilfreich für Überblick vonDdataframes</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/raw/data_ub_raw.rds&quot;</span>)) </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ub_01<span class="sc">:</span>ub_29) <span class="co"># oder select(starts_with(&quot;ub_&quot;))</span></span>
@@ -5704,7 +5704,7 @@ Erweitern für Session Info
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       Europe/Berlin
- date     2023-11-12
+ date     2023-11-13
  pandoc   3.1.4 @ /opt/homebrew/bin/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────

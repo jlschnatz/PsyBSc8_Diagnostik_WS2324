@@ -75,8 +75,8 @@ data_names <- read_csv("data/raw/data_ub_names.csv")
 
 data_raw_names <- add_labels_to_columns(data_raw, data_names) 
 
-
-write_rds(data_raw_names, "data/raw/data_ub_raw.rds")
+readr::write_rds(data_raw_names, "data/raw/data_ub_raw_lab.rds", compress = "gz")
+readr::write_rds(data_raw, "data/raw/data_ub_raw.rds", compress = "gz")
 
 
 # Item Data ----
@@ -91,43 +91,3 @@ step1_kick_diff <- extract_itemtable(data_item) %>%
   filter(item_difficulty < .2 | item_difficulty > .8) %>%
   pull(id_item)
 
-
-data_item_s1 <- data_item_labelled %>%
-  select(-all_of(step1_kick_diff))
-
-step2_kick_disc <- data_item_s1 %>%
-  extract_itemtable() %>%
-  filter(item_discrimination < .3) %>%
-  pull(id_item)
-
-data_item_s2 <- data_item_s1 %>%
-  select(-all_of(step2_kick_disc))
-
-fa1_results <- data_item_s2 %>%
-  sjPlot::tab_fa(
-    rotation = "oblimin",
-    fctr.load.tlrn = .2,
-    nmbr.fctr = 2,
-    method = "pa",
-    digits = 2,
-    wrap.labels = 200
-  )
-
-
-step3_kick_fa <- colnames(data_item_s2[, fa1_results$removed.items])
-
-data_item_s3 <- data_item_s2 %>%
-  select(-all_of(step3_kick_fa))
-
-test <- data_item_s3 %>%
-  tab_fa(
-    nmbr.fctr = 2,
-    rotation = "oblimin",
-    fctr.load.tlrn = .2,
-  )
-
-sjt.itemanalysis(
-  df = data_item_s3,
-  factor.groups = index,
-  factor.groups.titles = c("Faktor 1", "Faktor 2")
-)
