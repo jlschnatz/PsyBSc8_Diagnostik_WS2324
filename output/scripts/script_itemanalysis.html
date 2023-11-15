@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Luca Schnatz &amp; Arieja Farugie">
-<meta name="dcterms.date" content="2023-11-13">
+<meta name="dcterms.date" content="2023-11-15">
 
 <title>PsyBSc8 R Script</title>
 <style>
@@ -3105,7 +3105,7 @@ word-wrap: break-word
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">November 13, 2023</p>
+        <p class="date">November 15, 2023</p>
       </div>
     </div>
     
@@ -3126,15 +3126,16 @@ word-wrap: break-word
    
   <ul>
   <li><a href="#einleitung" id="toc-einleitung" class="nav-link active" data-scroll-target="#einleitung"><span class="header-section-number">1</span> Einleitung</a></li>
-  <li><a href="#deskriptive-analyse" id="toc-deskriptive-analyse" class="nav-link" data-scroll-target="#deskriptive-analyse"><span class="header-section-number">2</span> Deskriptive Analyse</a></li>
-  <li><a href="#itemanalyse" id="toc-itemanalyse" class="nav-link" data-scroll-target="#itemanalyse"><span class="header-section-number">3</span> Itemanalyse</a>
+  <li><a href="#einlesen-der-daten" id="toc-einlesen-der-daten" class="nav-link" data-scroll-target="#einlesen-der-daten"><span class="header-section-number">2</span> Einlesen der Daten</a></li>
+  <li><a href="#deskriptive-analyse" id="toc-deskriptive-analyse" class="nav-link" data-scroll-target="#deskriptive-analyse"><span class="header-section-number">3</span> Deskriptive Analyse</a></li>
+  <li><a href="#itemanalyse" id="toc-itemanalyse" class="nav-link" data-scroll-target="#itemanalyse"><span class="header-section-number">4</span> Itemanalyse</a>
   <ul class="collapse">
-  <li><a href="#rekodierung-inverser-items" id="toc-rekodierung-inverser-items" class="nav-link" data-scroll-target="#rekodierung-inverser-items"><span class="header-section-number">3.1</span> Rekodierung inverser Items</a></li>
-  <li><a href="#itemanalyse-i-schwierigkeit" id="toc-itemanalyse-i-schwierigkeit" class="nav-link" data-scroll-target="#itemanalyse-i-schwierigkeit"><span class="header-section-number">3.2</span> Itemanalyse I: Schwierigkeit</a></li>
-  <li><a href="#itemanalyse-ii-trennschärfe" id="toc-itemanalyse-ii-trennschärfe" class="nav-link" data-scroll-target="#itemanalyse-ii-trennschärfe"><span class="header-section-number">3.3</span> Itemanalyse II: Trennschärfe</a></li>
-  <li><a href="#zusatz" id="toc-zusatz" class="nav-link" data-scroll-target="#zusatz"><span class="header-section-number">3.4</span> Zusatz</a></li>
+  <li><a href="#rekodierung-inverser-items" id="toc-rekodierung-inverser-items" class="nav-link" data-scroll-target="#rekodierung-inverser-items"><span class="header-section-number">4.1</span> Rekodierung inverser Items</a></li>
+  <li><a href="#itemanalyse-i-schwierigkeit" id="toc-itemanalyse-i-schwierigkeit" class="nav-link" data-scroll-target="#itemanalyse-i-schwierigkeit"><span class="header-section-number">4.2</span> Itemanalyse I: Schwierigkeit</a></li>
+  <li><a href="#itemanalyse-ii-trennschärfe" id="toc-itemanalyse-ii-trennschärfe" class="nav-link" data-scroll-target="#itemanalyse-ii-trennschärfe"><span class="header-section-number">4.3</span> Itemanalyse II: Trennschärfe</a></li>
+  <li><a href="#zusatz" id="toc-zusatz" class="nav-link" data-scroll-target="#zusatz"><span class="header-section-number">4.4</span> Zusatz</a></li>
   </ul></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">4</span> Session Info</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">5</span> Session Info</a></li>
   </ul>
 </nav>
 </div>
@@ -3247,6 +3248,9 @@ word-wrap: break-word
 
 </div>
 </div>
+</section>
+<section id="einlesen-der-daten" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="einlesen-der-daten"><span class="header-section-number">2</span> Einlesen der Daten</h2>
 <p>Der Datensatz ist in diesem Fall als <code>.rds</code>-Datei gespeichert und kann mittels der Funktion (<code>readRDS()</code>) eingelesen werden.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3261,18 +3265,41 @@ Information zum Einlesen von Daten
 <p>Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format gespeichert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder -Komma, -Semikolon oder Tab-Separator) einzulesen, können entweder Base-R Funktionen (<code>read.csv()</code>, <code>read.csv2()</code> bzw. <code>read.delim()</code>) oder z.B. Funktionen des <em>readr-</em>Packages aus der Familie des <a href="https://www.tidyverse.org/"><em>tidyverse</em></a> genutzt werden (<code>read_csv()</code>, <code>read_csv2()</code> und <code>read_tsv()</code>). Um Excel-Dateien einlesen zu können, kann das <em>readxl</em>-Package genutzt werden (<code>read_excel()</code>)</p>
 </div>
 </div>
-<p>Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel <code>skim()</code> oder <code>str()</code>. Um selbst den Datensatz einzulesen, könnt ihr entweder aus OLAT den Datensatz herunterladen, euer Working Directory richtig einstellen (<code>setwd()</code>) und dann mit <code>readRDS(&quot;path/to/directory&quot;)</code> die Daten laden. Eine andere Möglichkeit ist es, den Permalink aus dem zugehörigen Github-Repositroy zu nutzen</p>
+<p>Ihr habt die Möglichkeit, den Datensatz entweder lokal von euren Computer einzulesen oder alternativ einen Permalink aus dem dazugehörigen <a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324">GitHub-Repository</a> zu verwenden (dafür ist natürlich eine Internetverbindung erforderlich).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href>Möglichkeit I: Lokal</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href>Möglichkeit II: Link</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Ladet den Datensatz aus OLAT herunter und stellt euer Working Directory richtig ein (<code>setwd()</code>). Danach kann der Datensatz folgendermaßen eingelesen werden <code>readRDS(&quot;data_ub_raw.rds&quot;)</code>. Alternativ wäre eine allgemeine Empfehlung R-Projects zu nutzen, dann müsst ihr nicht mehr euer Working Directory einstellen und könnt relative Dateipfade nutzen <code>readRDS(&quot;path/to/data/data_ub_raw.rds&quot;)</code>. Wer daran interessiert ist, findet unter diesem <a href="https://r4ds.hadley.nz/workflow-scripts.html#rstudio-projects">Link</a> weitere Ressourcen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># Datenmanipulation</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># Hilfreich für Überblick vonDdataframes</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/raw/data_ub_raw.rds&quot;</span>)) </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ub_01<span class="sc">:</span>ub_29) <span class="co"># oder select(starts_with(&quot;ub_&quot;))</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">subset</span>(data_raw, <span class="at">select =</span> ub_01<span class="sc">:</span>ub_29) <span class="co"># Alternative</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Überblick über den Datensatz</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(data_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/luca/PowerFolders/Hiwi_Arbeit/DPPD/PsyBSc8_Diagnostik_WS2324</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data/raw/data_ub_raw.rds&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Durch Verwendung eines Permalinks können die Daten direkt von GitHub abgerufen werden. Dazu muss lediglich der Link als String in die Funktion <code>url()</code> eingegeben werden und kann anschließend wie gewohnt eingelesen werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>permalink <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/raw/95ba618424d0465f7e0bfea4cc5ac840d82ad74e/data/raw/data_ub_raw.rds&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (curl<span class="sc">::</span><span class="fu">has_internet</span>()) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(permalink))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel <code>skim()</code> oder <code>str()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># Datenmanipulation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># Hilfreich für Überblick von Dataframes</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ub_01<span class="sc">:</span>ub_29) <span class="co"># oder select(starts_with(&quot;ub_&quot;))</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">subset</span>(data_raw, <span class="at">select =</span> ub_01<span class="sc">:</span>ub_29) <span class="co"># Alternative</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Überblick über den Datensatz</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(data_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <caption>Data summary</caption>
@@ -3805,18 +3832,18 @@ Information zum Einlesen von Daten
 </div>
 <p>Bevor wir mit der deskriptiven Analyse beginnen, sollten wir noch überprüfen, ob es fehlende Werte (<em>NAs</em>) im Datensatz gibt.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(data_item)) <span class="co"># Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(data_item)) <span class="co"># Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 87</code></pre>
 </div>
 </div>
 <p>In diesem Fall sind 87 fehlende Werte vorhanden. Um die fehlenden Werte genauer zu explorieren, sollte am Rande das <em>naniar</em>-Package erwähnt werden, da es einige nützliche Funktionen diesbezüglich enthält. Wir können zum Beispiel über die cases (Proband:innen) hinweg die prozentuale Häufigkeit an Missings visualisieren.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_case</span>(data_item, <span class="at">show_pct =</span> <span class="cn">TRUE</span>, <span class="at">order_cases =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_case</span>(data_item, <span class="at">show_pct =</span> <span class="cn">TRUE</span>, <span class="at">order_cases =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3840,15 +3867,15 @@ Disclaimer zu fehlenden Werten
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_item)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_item)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 </section>
-<section id="deskriptive-analyse" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="deskriptive-analyse"><span class="header-section-number">2</span> Deskriptive Analyse</h2>
+<section id="deskriptive-analyse" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="deskriptive-analyse"><span class="header-section-number">3</span> Deskriptive Analyse</h2>
 <p>Bevor wir die Itemanalyse durchführen, wollen wir uns zunächst ein wenig mit den Daten vertraut machen. Hierfür benötigen wir zwei Packages: Das <em>psych</em>-Package beinhaltet sehr viele Funktionen und Befehle, die auch für viele andere Analysen hilfreich sind. Das Package <em>janitor</em> ist eine bessere Alternative zum Basis-Befehl <code>table()</code> und ist besonders informativ bei Häufigkeitstabellen.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3865,14 +3892,14 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Für die Berechnung deskriptiver Kennwerte (Mittelwert, Standardabweichung, Median, etc.) können wir die <code>describe()</code> Funktion des <em>psych</em>-Packages verwenden:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>descr_data_item <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_item)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_data_item, </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.rownames =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#file = table_descr_item.doc # Speichern als .doc Datei</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>descr_data_item <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_item)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_data_item, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.rownames =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#file = table_descr_item.doc # Speichern als .doc Datei</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <tbody>
@@ -4364,8 +4391,8 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Wenn wir nur eine spezifische Variable deskriptiv betrachten wollen (z.B. <code>dd_alter</code>), kann in der gleichen Funktion die Variable direkt angesteuert werden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>descr_age <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_raw<span class="sc">$</span>dd_alter)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(descr_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>descr_age <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_raw<span class="sc">$</span>dd_alter)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(descr_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <tbody>
@@ -4407,9 +4434,9 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Für alle kategoriellen Daten (z.B. Geschlecht, Wohnort, Bildung) benötigen keine Mittelwerte oder Standardabweichungen, sondern nutzen Häufigkeitsverteilung zur deskriptiven Beschreibung. Hier kommt jetzt das <em>janitor</em>-Package zum Einsatz.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>descr_sex <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>descr_sex <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <tbody>
@@ -4441,8 +4468,8 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eineszusätzlichen Arguments möglich.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>descr_sex_na <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex_na)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>descr_sex_na <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex_na)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <tbody>
@@ -4484,14 +4511,14 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Zudem können wir mit dem psych-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des sjPlot Package in einer Tabelle dargestellt werden.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>descr_age_by_sex <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_raw<span class="sc">$</span>dd_alter, <span class="at">group =</span> <span class="fu">droplevels</span>(data_raw<span class="sc">$</span>dd_sex) <span class="co"># Nicht angegebenes Level (Divers) des Faktors entfernen</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_age_by_sex,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Männlich&quot;</span>,<span class="st">&quot;Weiblich&quot;</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>descr_age_by_sex <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_raw<span class="sc">$</span>dd_alter, <span class="at">group =</span> <span class="fu">droplevels</span>(data_raw<span class="sc">$</span>dd_sex) <span class="co"># Nicht angegebenes Level (Divers) des Faktors entfernen</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_age_by_sex,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Männlich&quot;</span>,<span class="st">&quot;Weiblich&quot;</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Männlich</caption>
@@ -4570,10 +4597,10 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 <p>Es gibt auch die Möglichkeit mehrere Tabellen in ein Dokument zu packen und diese in einem Word-Dokument zu speichern:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex_na),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Descriptives of Age&quot;</span>, <span class="st">&quot;Descriptives of Sex&quot;</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex_na),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Descriptives of Age&quot;</span>, <span class="st">&quot;Descriptives of Sex&quot;</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Descriptives of Age</caption>
@@ -4651,17 +4678,17 @@ Tipp für die Präsentationen &amp; Hausarbeit
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Descriptives of Age&quot;</span>,<span class="st">&quot;Descriptives of Sex&quot;</span>),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">&quot;descriptives_all.doc&quot;</span> <span class="co"># wieder als .doc abspeichern</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">&quot;Descriptives of Age&quot;</span>,<span class="st">&quot;Descriptives of Sex&quot;</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">&quot;descriptives_all.doc&quot;</span> <span class="co"># wieder als .doc abspeichern</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="itemanalyse" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="itemanalyse"><span class="header-section-number">3</span> Itemanalyse</h2>
-<section id="rekodierung-inverser-items" class="level3" data-number="3.1">
-<h3 data-number="3.1" class="anchored" data-anchor-id="rekodierung-inverser-items"><span class="header-section-number">3.1</span> Rekodierung inverser Items</h3>
+<section id="itemanalyse" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="itemanalyse"><span class="header-section-number">4</span> Itemanalyse</h2>
+<section id="rekodierung-inverser-items" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="rekodierung-inverser-items"><span class="header-section-number">4.1</span> Rekodierung inverser Items</h3>
 <p>Für die Itemanalyse benötigen wir den Datensatz in denen nur die Items vorhanden sind. Diesen haben wir bereits in einem vorherigen Schritt erstellt. Bevor wir die Itemanalyse jedoch durchführen, müssen wir alle Items, die inverse kodiert sind rekodieren.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4677,18 +4704,18 @@ Rekodierung leicht gemacht!
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>inverse_items <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;ub_&quot;</span>, <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">29</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> data_item <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">all_of</span>(inverse_items), </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns =</span> <span class="sc">~</span>sjmisc<span class="sc">::</span><span class="fu">rec</span>(.x, <span class="at">rec =</span> <span class="st">&quot;rev&quot;</span>),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">&quot;{.col}_r&quot;</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(inverse_items))</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>inverse_items <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;ub_&quot;</span>, <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">29</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> data_item <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">all_of</span>(inverse_items), </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns =</span> <span class="sc">~</span>sjmisc<span class="sc">::</span><span class="fu">rec</span>(.x, <span class="at">rec =</span> <span class="st">&quot;rev&quot;</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">&quot;{.col}_r&quot;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(inverse_items))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;ub_01&quot;   &quot;ub_02&quot;   &quot;ub_03&quot;   &quot;ub_04&quot;   &quot;ub_05&quot;   &quot;ub_06&quot;   &quot;ub_07&quot;  
  [8] &quot;ub_08&quot;   &quot;ub_09&quot;   &quot;ub_10&quot;   &quot;ub_11&quot;   &quot;ub_13&quot;   &quot;ub_15&quot;   &quot;ub_16&quot;  
@@ -4699,9 +4726,9 @@ Rekodierung leicht gemacht!
 </div>
 <p>Wir sehen, dass die Variablen jetzt nicht mehr in der “richtigen” Reihenfolge sind, da alle rekodierten Items am Ende des Dataframes auftauchen. Wir können die ursprüngliche Reihenfolge der Items wiederherstellen, indem wir diese in einem Vektor spezifizieren. Anschließend verwenden wir wieder die <code>select()</code> Funktion und bringen dadurch die Variablen in die gewünschte Reihenfolge.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>col_order <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">colnames</span>(data_item_rec))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> <span class="fu">select</span>(data_item_rec, <span class="fu">all_of</span>(col_order))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>col_order <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">colnames</span>(data_item_rec))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> <span class="fu">select</span>(data_item_rec, <span class="fu">all_of</span>(col_order))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;ub_01&quot;   &quot;ub_02&quot;   &quot;ub_03&quot;   &quot;ub_04&quot;   &quot;ub_05&quot;   &quot;ub_06&quot;   &quot;ub_07&quot;  
  [8] &quot;ub_08&quot;   &quot;ub_09&quot;   &quot;ub_10&quot;   &quot;ub_11&quot;   &quot;ub_12_r&quot; &quot;ub_13&quot;   &quot;ub_14_r&quot;
@@ -4711,8 +4738,8 @@ Rekodierung leicht gemacht!
 </div>
 </div>
 </section>
-<section id="itemanalyse-i-schwierigkeit" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="itemanalyse-i-schwierigkeit"><span class="header-section-number">3.2</span> Itemanalyse I: Schwierigkeit</h3>
+<section id="itemanalyse-i-schwierigkeit" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="itemanalyse-i-schwierigkeit"><span class="header-section-number">4.2</span> Itemanalyse I: Schwierigkeit</h3>
 <p>Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem <em>sjPlot-</em>Package:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -4728,12 +4755,12 @@ Schritt I
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>item_analysis_1 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_rec,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Erste Itemanalyse&quot;</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>item_analysis_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>item_analysis_1 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_rec,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Erste Itemanalyse&quot;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>item_analysis_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Erste Itemanalyse</caption>
@@ -5079,7 +5106,7 @@ Schritt I
 </div>
 <p>In dieser Situation entscheiden wir uns dazu, nur diejenigen Items zu behalten, für die <span class="math inline">0.2 &lt; P_i &lt; 0.8</span> gilt. Es gibt zwei Methoden, dies umzusetzen: Eine Möglichkeit besteht darin, den Output manuell zu überprüfen, um diejenigen Items zu identifizieren, die dieses Kriterium nicht erfüllen. Diese Items werden dann in einem Vektor gespeichert und anschließend ausgeschlossen. Eine andere, etwas elegantere Lösung, die programmatischer vorgeht, besteht darin, direkt in R diejenigen Items herauszufiltern, die gemäß diesem Kriterium ausgeschlossen werden sollen. Dafür machen wir uns zu Nutzen, dass die Funktion <code>sjPlot::tab_itemscale()</code> uns nicht nur eine schöne HTML-Tabelle ausgibt, sondern diese im Hintergrund auch mit ausgibt. Durch die Verwendung von der Funktion <code>str()</code> können wir genauer betrachten, welche Informationen im Hintergrund ausgegeben werden, wenn wir das Objekt <em>item_analysis_1</em> aufrufen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="at">object =</span> item_analysis_1, <span class="at">vec.len =</span> <span class="dv">1</span>, <span class="at">nchar.max =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="at">object =</span> item_analysis_1, <span class="at">vec.len =</span> <span class="dv">1</span>, <span class="at">nchar.max =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 10
  $ page.style     : chr &quot;&lt;style&gt;\nhtml&quot;| __truncated__
@@ -5111,14 +5138,14 @@ Schritt I
 </div>
 <p>Wie ersichtlich ist, ist der Output als Liste strukturiert und wir benötigen den Eintrag <code>df.list</code>. Danach müssen wir erneut in die Liste indizieren (<code>item_analysis_1$df.list[[1]]</code>). Da wir in diesem Skript mehrmals auf genau diese Itemtabelle zugreifen möchten, ist es ratsam, eine kleine Funktion zu schreiben, die diese Aufgabe übernimmt.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>extract_itemtable <span class="ot">&lt;-</span> <span class="cf">function</span>(.data) {</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> sjPlot<span class="sc">::</span><span class="fu">tab_itemscale</span>(.data)<span class="sc">$</span>df.list[[<span class="dv">1</span>]] </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># clean_names ändert die Spaltennamen in lowercase und tauscht Leerzeichen mit _</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="fu">cbind</span>(<span class="at">id_item =</span> <span class="fu">rownames</span>(tab), tab))</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">extract_itemtable</span>(data_item_rec))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>extract_itemtable <span class="ot">&lt;-</span> <span class="cf">function</span>(.data) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> sjPlot<span class="sc">::</span><span class="fu">tab_itemscale</span>(.data)<span class="sc">$</span>df.list[[<span class="dv">1</span>]] </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># clean_names ändert die Spaltennamen in lowercase und tauscht Leerzeichen mit _</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="fu">cbind</span>(<span class="at">id_item =</span> <span class="fu">rownames</span>(tab), tab))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">extract_itemtable</span>(data_item_rec))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      id_item missings mean   sd  skew item_difficulty item_discrimination
 ub_01   ub_01   0.00 % 4.09 0.86 -2.28            0.82               0.328
@@ -5138,23 +5165,23 @@ ub_06            0.743</code></pre>
 </div>
 <p>Jetzt können wir die <code>filter()</code> Funktion des <em>dplyr</em>-Packages nutzen, um die Zeilen zu ermitteln, die in das Auschlusskriterium fallen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>step1_kick_diff <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_rec) <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_difficulty <span class="sc">&lt;</span> .<span class="dv">2</span> <span class="sc">|</span> item_difficulty <span class="sc">&gt;</span> .<span class="dv">8</span>) <span class="sc">%&gt;%</span> <span class="co"># `|` ist der ODER Operator in R </span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item) <span class="co"># macht das selbe wie `$id_item`(indiziert in den dataframe)</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step1_kick_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>step1_kick_diff <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_rec) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_difficulty <span class="sc">&lt;</span> .<span class="dv">2</span> <span class="sc">|</span> item_difficulty <span class="sc">&gt;</span> .<span class="dv">8</span>) <span class="sc">%&gt;%</span> <span class="co"># `|` ist der ODER Operator in R </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item) <span class="co"># macht das selbe wie `$id_item`(indiziert in den dataframe)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step1_kick_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;ub_01&quot;   &quot;ub_05&quot;   &quot;ub_21&quot;   &quot;ub_23_r&quot; &quot;ub_26_r&quot;</code></pre>
 </div>
 </div>
 <p>Anschließend können wir ein neues Objekt erstellen, indem wir die 5 Items aus <code>step1_kick_diff</code> ausgeschlossen haben.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>data_item_s1 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_rec, <span class="sc">-</span><span class="fu">all_of</span>(step1_kick_diff))</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_item_s1 &lt;- data_item_rec[, !colnames(data_item_rec) %in% step1_kick_diff] # Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_item_s1 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_rec, <span class="sc">-</span><span class="fu">all_of</span>(step1_kick_diff))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_item_s1 &lt;- data_item_rec[, !colnames(data_item_rec) %in% step1_kick_diff] # Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="itemanalyse-ii-trennschärfe" class="level3" data-number="3.3">
-<h3 data-number="3.3" class="anchored" data-anchor-id="itemanalyse-ii-trennschärfe"><span class="header-section-number">3.3</span> Itemanalyse II: Trennschärfe</h3>
+<section id="itemanalyse-ii-trennschärfe" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="itemanalyse-ii-trennschärfe"><span class="header-section-number">4.3</span> Itemanalyse II: Trennschärfe</h3>
 <p>Nachdem wir in der ersten Itemanalyse hinsichtlich der Itemschwierigkeit fünf Items ausgeschlossen haben, folgt die zweite Itemanalyse hinsichtlich der Itemtrennschärfe.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -5171,12 +5198,12 @@ Schritt II
 </div>
 <p>In dieser Situation entscheiden wir uns das liberalere Kriterium von <span class="math inline">𝑟_{𝑖𝑡(𝑖)} \geq .3</span> zu wählen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>item_analysis_2 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s1,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Zweite Itemanalyse&quot;</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>item_analysis_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>item_analysis_2 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s1,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Zweite Itemanalyse&quot;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>item_analysis_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Zweite Itemanalyse</caption>
@@ -5467,23 +5494,23 @@ Schritt II
 </div>
 <p>Wir greifen erneut auf die zuvor definierte Funktion <code>extract_itemtable()</code> zurück, um die erforderlichen Informationen zu extrahieren. Diesmal filtern wir nach der Variable <em>item_discrimination</em>. Den resultierenden Vektor speichern wir erneut als Objekt und nutzen ihn zur Erstellung eines endgültigen Datensatzes, der nur noch Variablen enthält, die sowohl angemessene Schwierigkeit als auch Trennschärfe aufweisen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>step2_kick_disc <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_s1) <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(item_discrimination <span class="sc">&lt;</span> .<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step2_kick_disc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>step2_kick_disc <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_s1) <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(item_discrimination <span class="sc">&lt;</span> .<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step2_kick_disc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;ub_02&quot;   &quot;ub_03&quot;   &quot;ub_04&quot;   &quot;ub_07&quot;   &quot;ub_11&quot;   &quot;ub_12_r&quot; &quot;ub_15&quot;  
  [8] &quot;ub_16&quot;   &quot;ub_17_r&quot; &quot;ub_22_r&quot; &quot;ub_25&quot;   &quot;ub_28&quot;   &quot;ub_29_r&quot;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_item_s2 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_s1, <span class="sc">-</span><span class="fu">all_of</span>(step2_kick_disc))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_item_s2 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_s1, <span class="sc">-</span><span class="fu">all_of</span>(step2_kick_disc))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Mit diesem Datensatz können wir nun die finale Itemanalyse durchführen.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_itemscale</span>(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s2,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Finale Itemanalyse&quot;</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_itemscale</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s2,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">&quot;Finale Itemanalyse&quot;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>Finale Itemanalyse</caption>
@@ -5643,29 +5670,29 @@ Zusammenfassung
 </div>
 </div>
 </section>
-<section id="zusatz" class="level3" data-number="3.4">
-<h3 data-number="3.4" class="anchored" data-anchor-id="zusatz"><span class="header-section-number">3.4</span> Zusatz</h3>
+<section id="zusatz" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="zusatz"><span class="header-section-number">4.4</span> Zusatz</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href>Alternative Reliabilitätsberechnung: McDonald’s Omega</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href>Berechnung der Itemvarianz</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>Alternative Reliabilitätsberechnung: McDonald’s Omega</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>Berechnung der Itemvarianz</a></li></ul>
 <div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>Abschließend gibt es noch die Möglichkeit, McDonald´s <span class="math inline">\omega</span> als ein alternatives Reliabilitätsmaß (zusätzlich zu Cronbach´s <span class="math inline">\alpha</span>) zu bestimmen. Wir nutzen dafür wieder eine Funktion aus dem <em>psych</em>-Package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>omega_items <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(data_item_s2, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>omega.tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>omega_items <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(data_item_s2, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>omega.tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8306594</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7582772</code></pre>
 </div>
 </div>
 </div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <p>Neben der Berechnung der Itemschwierigkeit und Trennschärfe ist es sinnvoll, auch die Itemvarianz zu analysieren. Die Itemvarianz stellt zwar kein Selektionskriterium dar, da sie nicht standardisiert ist, jedoch ist sie wichtig, um festzustellen, ob Personen in ihrem Antwortverhalten bei einem bestimmten Item überhaupt variieren (ob die Itemvarianz &gt; 0 ist). Zudem ermöglicht die Itemvarianz Vergleiche zwischen verschiedenen Items.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(<span class="fu">var</span>(data_item_s2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(<span class="fu">var</span>(data_item_s2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    ub_06     ub_08     ub_09     ub_10     ub_13   ub_14_r     ub_18     ub_19 
 2.6148515 2.2800000 1.6295050 1.8499010 1.6455446 1.9675248 1.3279208 2.1742574 
@@ -5678,8 +5705,8 @@ Zusammenfassung
 </div>
 </section>
 </section>
-<section id="session-info" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="session-info"><span class="header-section-number">4</span> Session Info</h2>
+<section id="session-info" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="session-info"><span class="header-section-number">5</span> Session Info</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -5704,7 +5731,7 @@ Erweitern für Session Info
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       Europe/Berlin
- date     2023-11-13
+ date     2023-11-15
  pandoc   3.1.4 @ /opt/homebrew/bin/ (via rmarkdown)
 
 ─ Packages ───────────────────────────────────────────────────────────────────
