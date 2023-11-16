@@ -334,7 +334,7 @@ tab_itemscale(
 Zusammenfassend wurden im Zuge der Itemanalyse insgesamt 18 der 29 Items ausgeschlossen. Am Ende dieses Analyseschritts bleiben somit 11 Items übrig, die für weitere Analysen, insbesondere die explorative Faktorenanalyse (EFA), in Betracht gezogen werden (Details siehe EFA). Die durchschnittliche inter-item-Korrelation von .22 weist darauf hin, dass die Items im Fragebogen in einem moderaten Maß miteinander korrelieren. Dies deutet darauf hin, dass es eine gewisse gemeinsame Varianz zwischen den Items gibt, ohne dass sie übermäßig stark miteinander verbunden sind. Ein Cronbach's $\alpha$ Wert von $\alpha$ = .75 lässt darauf schließen, dass der Fragebogen eine akzeptable Reliabilität aufweist.
 :::
 
-### Zusatz
+## Zusatz
 
 ::: panel-tabset
 ## Alternative Reliabilitätsberechnung: McDonald's Omega
@@ -357,6 +357,13 @@ Neben der Berechnung der Itemschwierigkeit und Trennschärfe ist es sinnvoll, au
 diag(var(data_item_s2))
 ```
 :::
+
+## Ausblick
+
+Im nächsten Skript widmen wir uns der Exploratorischen Faktorenanalyse (EFA).
+
+```         
+```
 
 ## Session Info
 

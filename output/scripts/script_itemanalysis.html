@@ -3133,9 +3133,10 @@ word-wrap: break-word
   <li><a href="#rekodierung-inverser-items" id="toc-rekodierung-inverser-items" class="nav-link" data-scroll-target="#rekodierung-inverser-items"><span class="header-section-number">4.1</span> Rekodierung inverser Items</a></li>
   <li><a href="#itemanalyse-i-schwierigkeit" id="toc-itemanalyse-i-schwierigkeit" class="nav-link" data-scroll-target="#itemanalyse-i-schwierigkeit"><span class="header-section-number">4.2</span> Itemanalyse I: Schwierigkeit</a></li>
   <li><a href="#itemanalyse-ii-trennschärfe" id="toc-itemanalyse-ii-trennschärfe" class="nav-link" data-scroll-target="#itemanalyse-ii-trennschärfe"><span class="header-section-number">4.3</span> Itemanalyse II: Trennschärfe</a></li>
-  <li><a href="#zusatz" id="toc-zusatz" class="nav-link" data-scroll-target="#zusatz"><span class="header-section-number">4.4</span> Zusatz</a></li>
   </ul></li>
-  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">5</span> Session Info</a></li>
+  <li><a href="#zusatz" id="toc-zusatz" class="nav-link" data-scroll-target="#zusatz"><span class="header-section-number">5</span> Zusatz</a></li>
+  <li><a href="#ausblick" id="toc-ausblick" class="nav-link" data-scroll-target="#ausblick"><span class="header-section-number">6</span> Ausblick</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">7</span> Session Info</a></li>
   </ul>
 </nav>
 </div>
@@ -4466,7 +4467,7 @@ Tipp für die Präsentationen &amp; Hausarbeit
 
 </div>
 </div>
-<p>Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eineszusätzlichen Arguments möglich.</p>
+<p>Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eines zusätzlichen Arguments möglich.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>descr_sex_na <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex_na)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -4509,7 +4510,7 @@ Tipp für die Präsentationen &amp; Hausarbeit
 
 </div>
 </div>
-<p>Zudem können wir mit dem psych-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des sjPlot Package in einer Tabelle dargestellt werden.</p>
+<p>Zudem können wir mit dem <em>psych</em>-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des <em>sjPlot</em>-Package in einer Tabelle dargestellt werden.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>descr_age_by_sex <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_raw<span class="sc">$</span>dd_alter, <span class="at">group =</span> <span class="fu">droplevels</span>(data_raw<span class="sc">$</span>dd_sex) <span class="co"># Nicht angegebenes Level (Divers) des Faktors entfernen</span></span>
@@ -5670,8 +5671,9 @@ Zusammenfassung
 </div>
 </div>
 </section>
-<section id="zusatz" class="level3" data-number="4.4">
-<h3 data-number="4.4" class="anchored" data-anchor-id="zusatz"><span class="header-section-number">4.4</span> Zusatz</h3>
+</section>
+<section id="zusatz" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="zusatz"><span class="header-section-number">5</span> Zusatz</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href>Alternative Reliabilitätsberechnung: McDonald’s Omega</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href>Berechnung der Itemvarianz</a></li></ul>
 <div class="tab-content">
@@ -5704,9 +5706,13 @@ Zusammenfassung
 </div>
 </div>
 </section>
+<section id="ausblick" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="ausblick"><span class="header-section-number">6</span> Ausblick</h2>
+<p>Im nächsten Skript widmen wir uns der exploratorischen Faktorenanalyse (EFA).</p>
+<pre><code></code></pre>
 </section>
-<section id="session-info" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="session-info"><span class="header-section-number">5</span> Session Info</h2>
+<section id="session-info" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">7</span> Session Info</h2>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
