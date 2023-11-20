@@ -264,6 +264,7 @@ extract_itemtable <- function(.data) {
   return(out)
 }
 
+
 head(extract_itemtable(data_item_rec))
 
 ```
@@ -360,7 +361,12 @@ diag(var(data_item_s2))
 
 ## Ausblick
 
-Im nächsten Skript widmen wir uns der Exploratorischen Faktorenanalyse (EFA).
+Im kommenden Skript setzen wir uns mit der Exploratorischen Faktorenanalyse (EFA) auseinander. Daher ist es sinnvoll, den Zwischenstand bzw. die Ergebnisse der Itemanalyse zu speichern, um nahtlos von diesem Punkt aus fortzufahren. Zu diesem Zweck sichern wir den finale Dataframe `data_item_s2` als csv-Datei.
+
+```{r}
+readr::write_csv(x = data_item_s2, file = here("data/processed", "data_item_itemanalysis.csv"))
+# oder write.csv()
+```
 
 ```         
 ```
