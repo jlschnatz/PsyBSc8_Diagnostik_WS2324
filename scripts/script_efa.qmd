@@ -1,0 +1,20 @@
+---
+date: "`r Sys.Date()`"
+title-block-style: default
+subtitle  : "Exploratorische Faktorenanalyse (EFA)"
+abstract-title: "Zusammenfassung"
+title-block-banner: true
+title-block-categories: true
+title-block-banner-color: "white"
+abstract:  "In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde."
+---
+
+## Session Info
+
+::: {.callout-important collapse="true"}
+## Erweitern für Session Info
+
+```{r, echo = FALSE}
+sessioninfo::session_info(pkgs = "attached")
+```
+:::
