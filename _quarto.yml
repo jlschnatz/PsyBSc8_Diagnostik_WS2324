@@ -18,13 +18,14 @@ format:
     smooth-scroll: true
     self-contained: true
     toc: true
+    toc-depth: 4
     touch: true
     theme: zephyr
     fontsize: 13pt
     toc-title: "Inhalt"
     highlight-style: kate
     css: "styles.css"
-    bibliography: "references.bib"
+    bibliography: references.bib
     csl: "apa.csl"
     grid: 
       sidebar-width: 0px
