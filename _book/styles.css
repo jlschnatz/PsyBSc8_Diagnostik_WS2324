@@ -1,0 +1,13 @@
+quarto-title-banner {
+  background-color: #3e58de;
+}
+
+code {
+    font-size: 0.875em;
+    color: #3e58de;
+    background-color: #f6f6f6;
+    border-radius: .25rem;
+    padding: .125rem .25rem;
+    word-wrap: break-word
+}
+

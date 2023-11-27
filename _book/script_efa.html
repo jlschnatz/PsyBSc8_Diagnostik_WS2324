@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PsyBSc8 Diagnostik - R Skript - 2&nbsp; EFA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./script_itemanalysis.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+.panel-tabset > .nav-tabs,
+.panel-tabset > .tab-content {
+  border: none;
+}
+</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./script_efa.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">EFA</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PsyBSc8 Diagnostik - R Skript</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./PsyBSc8-Diagnostik---R-Skript.pdf" rel="" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einleitung</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./script_itemanalysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Itemanalyse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./script_efa.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">EFA</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhalteverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#laden-der-daten-übersicht" id="toc-laden-der-daten-übersicht" class="nav-link active" data-scroll-target="#laden-der-daten-übersicht"><span class="header-section-number">2.1</span> Laden der Daten &amp; Übersicht</a></li>
+  <li><a href="#recap-der-itemanalyse" id="toc-recap-der-itemanalyse" class="nav-link" data-scroll-target="#recap-der-itemanalyse"><span class="header-section-number">2.2</span> Recap der Itemanalyse</a></li>
+  <li><a href="#durchführung-der-efa" id="toc-durchführung-der-efa" class="nav-link" data-scroll-target="#durchführung-der-efa"><span class="header-section-number">2.3</span> Durchführung der EFA</a>
+  <ul>
+  <li><a href="#identifikation-der-anzahl-der-faktoren" id="toc-identifikation-der-anzahl-der-faktoren" class="nav-link" data-scroll-target="#identifikation-der-anzahl-der-faktoren"><span class="header-section-number">2.3.1</span> Identifikation der Anzahl der Faktoren</a>
+  <ul class="collapse">
+  <li><a href="#möglichkeit-i---eigenwertkriterium" id="toc-möglichkeit-i---eigenwertkriterium" class="nav-link" data-scroll-target="#möglichkeit-i---eigenwertkriterium"><span class="header-section-number">2.3.1.1</span> Möglichkeit I - Eigenwertkriterium</a></li>
+  <li><a href="#möglichkeit-ii---scree-plot" id="toc-möglichkeit-ii---scree-plot" class="nav-link" data-scroll-target="#möglichkeit-ii---scree-plot"><span class="header-section-number">2.3.1.2</span> Möglichkeit II - Scree-Plot</a></li>
+  <li><a href="#möglichkeit-iii---parallelanalyse" id="toc-möglichkeit-iii---parallelanalyse" class="nav-link" data-scroll-target="#möglichkeit-iii---parallelanalyse"><span class="header-section-number">2.3.1.3</span> Möglichkeit III - Parallelanalyse</a></li>
+  </ul></li>
+  <li><a href="#extraktion-der-faktoren-rotation" id="toc-extraktion-der-faktoren-rotation" class="nav-link" data-scroll-target="#extraktion-der-faktoren-rotation"><span class="header-section-number">2.3.2</span> Extraktion der Faktoren &amp; Rotation</a></li>
+  <li><a href="#finale-modellspezifizierung" id="toc-finale-modellspezifizierung" class="nav-link" data-scroll-target="#finale-modellspezifizierung"><span class="header-section-number">2.3.3</span> Finale Modellspezifizierung</a></li>
+  </ul></li>
+  <li><a href="#deskriptive-analyse-der-faktorstruktur" id="toc-deskriptive-analyse-der-faktorstruktur" class="nav-link" data-scroll-target="#deskriptive-analyse-der-faktorstruktur"><span class="header-section-number">2.4</span> Deskriptive Analyse der Faktorstruktur</a></li>
+  <li><a href="#testwertanalyse" id="toc-testwertanalyse" class="nav-link" data-scroll-target="#testwertanalyse"><span class="header-section-number">2.5</span> Testwertanalyse</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">2.6</span> Session Info</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/edit/main/script_efa.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">EFA</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
+  </div>
+</div>
+
+</header>
+
+<section id="laden-der-daten-übersicht" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="laden-der-daten-übersicht"><span class="header-section-number">2.1</span> Laden der Daten &amp; Übersicht</h2>
+<p>Wir beginnen mit dem Datensatz, mit dem wir letztes Skript aufgehört haben. Wie immer müsst ihr dafür den Pfad wählen, in dem sich die Daten befinden. Ihr könnt die finalen Daten aus der Itemeanalyse entweder wieder aus OLAT herunterladen (unter Gemeinsame Dokumente aller Gruppen/R-Skripte_Auswertung) oder direkt den GitHub-Permalink nutzen.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Möglichkeit I – Lokal</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Möglichkeit II - Link</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_item_final <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data/processed/data_item_itemanalysis.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>link <span class="ot">&lt;-</span> <span class="fu">url</span>(<span class="st">"https://raw.githubusercontent.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/main/data/processed/data_item_itemanalysis.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_item_final <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(link)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Mit <code>skim()</code> können wir uns nochmal einen kurzen Überblick verschaffen, wie die Datenstruktur aussieht und welche Variablen wir nach der Itemanalyse beibehalten/ausgeschlossen haben.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">skim</span>(data_item_final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">data_item_final</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">101</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ub_06</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.69</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▆▅▅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_08</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▆▆▆▇▆</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_09</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▂▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.99</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▃▇▇▇▅</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_13</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.66</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▂▂▆▆▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_14_r</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.95</td>
+<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▃▇▇▂▆</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_18</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">▇▇▃▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.19</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▅▅▂▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_20</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▆▃▁▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.78</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▁▅▇▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_27_r</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.73</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▂▇▇▇</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="recap-der-itemanalyse" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="recap-der-itemanalyse"><span class="header-section-number">2.2</span> Recap der Itemanalyse</h2>
+<p>Als Erinnerung können wir uns nochmal die psychometrische Eigenschaften der beibehaltenen Items anschauen. Wir benutzen dafür wieder die Funktion <code>tab_itemscale()</code> aus dem <em>sjPlot</em>-Package, die wir letztes Skript kennengelernt haben.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_itemscale</span>(<span class="at">df =</span> data_item_final, <span class="at">factor.groups.titles =</span> <span class="st">"Finale Itemanalyse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Finale Itemanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.54</td>
+<td>0.41</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.36</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.38</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.73</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_14_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.95</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.59</td>
+<td>0.55</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.23</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.44</td>
+<td>0.51</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.40</td>
+<td>0.43</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.83</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_27_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.75</td>
+<td>0.56</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.222 · Cronbach's α=0.758</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="durchführung-der-efa" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="durchführung-der-efa"><span class="header-section-number">2.3</span> Durchführung der EFA</h2>
+<section id="identifikation-der-anzahl-der-faktoren" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="identifikation-der-anzahl-der-faktoren"><span class="header-section-number">2.3.1</span> Identifikation der Anzahl der Faktoren</h3>
+<p>Zur Bestimmung der Anzahl der Faktoren in der exploratorischen Faktorenanalyse gibt es mehrere Herangehensweisen, die bereits in dem Lernbar-Video vorgestellt wurden: das Eigenwertkriterium/Kaiser-Guttman-Kriterium <span class="citation" data-cites="kaiser1960application">[@kaiser1960application]</span>, der Scree-Plot <span class="citation" data-cites="cattell1966scree">[@cattell1966scree]</span> und die Parallelanalyse <span class="citation" data-cites="horn1965rationale">[@horn1965rationale]</span>. Jedes dieser Verfahren hat seine eigenen Vorbehalte hinsichtlich Konservativität und Objektivität. Deswegen ist es in der Praxis empfehlenswert, die Ergebnisse mehrerer Kriterien gleichzeitig zu berücksichtigen, um die höchste Genauigkeit zu erzielen. Für eine Übersicht hinsichtlich verschiedener Extraktionsmethoden und deren Vergleich siehe: <span class="citation" data-cites="auerswald2019determine">@auerswald2019determine</span>.</p>
+<section id="möglichkeit-i---eigenwertkriterium" class="level4" data-number="2.3.1.1">
+<h4 data-number="2.3.1.1" class="anchored" data-anchor-id="möglichkeit-i---eigenwertkriterium"><span class="header-section-number">2.3.1.1</span> Möglichkeit I - Eigenwertkriterium</h4>
+<p>Das Eigenwertkriterium bzw. Kaiser-Kriterium ist das liberalste Maß der Entscheidung, weswegen tendeziell dadurch viele Faktoren entstehen. Zur Bestimmung werden die Eigenwerte errechnet und alle Faktoren beibehalten, deren Eigenwert <span class="math inline">\lambda &gt;= 1</span> ist. Es gibt zwei Möglichkeiten, den Eigenwerteverlauf mittels R zu bestimmen.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">1. Weg: Base-R Funktion <code>eigen()</code></a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">2. Weg: <code>FactorMineR</code> Package</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Zunächst berechnen wir die symmetrische Korrelationsmatrix aus den Daten und können dann mit der <code>eigen()</code> Funktion die den Eigenwertverlauf bestimmen. Der Output ist eine Liste, in die wir indizieren müssen, um die Eigenwerte zu extrahieren.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base R</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(<span class="fu">cor</span>(data_item_final))<span class="sc">$</span>values </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 3.3374011 1.5944637 1.1764625 0.9872941 0.9171743 0.7127462 0.6879672
+ [8] 0.6022027 0.4861623 0.3122628 0.1858631</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative Schreibweise (mit pipes):</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data_item_final) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">eigen</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">chuck</span>(<span class="st">"values"</span>) <span class="co"># chuck() extrahiert einzelne Elemente aus Listen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 3.3374011 1.5944637 1.1764625 0.9872941 0.9171743 0.7127462 0.6879672
+ [8] 0.6022027 0.4861623 0.3122628 0.1858631</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># in Tabellenform:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(data_item_final) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">eigen</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">chuck</span>(<span class="st">"values"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Eigenvalue =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_df</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Eigenwertverlauf"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.header =</span> <span class="st">"Eigenwert"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.rownames =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Eigenwertverlauf</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Eigenwert</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.59</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.71</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.49</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.19</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Mit dem alternativen Weg könnnen wir noch etwas mehr Informationen als nur die Eigenwerte extrahieren. Dazu müssen wir das <code>FactoMineR</code> Package laden bzw. wenn noch nicht geschehen auch installieren. Wir verwenden die <code>PCA()</code> Funktion und extrahieren im Anschluss die Eigenwerte und Varianzaufklärung der möglichen Faktoren aus der abgespeichertern Liste.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("FactoMineR")</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">PCA</span>(data_item_final, <span class="at">graph =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>eigen <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>eig) <span class="co"># als dataframe abspeichern</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>eigen <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca[[<span class="st">"eig"</span>]]) <span class="co"># Alternative</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># in Tabellenform:</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> eigen,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.rownames =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Eigenwertverlauf mit zusätzlicher Information hinsichtlich erklärte Varianz"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.header  =</span> <span class="fu">c</span>(<span class="st">"Eigenwert"</span>, <span class="st">"Erklärte Varianz"</span>, <span class="st">"Kum. erklärte Varianz"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Eigenwertverlauf mit zusätzlicher Information hinsichtlich erklärte Varianz</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Eigenwert</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Erklärte Varianz</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Kum. erklärte Varianz</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">30.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">30.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.59</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">14.50</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">44.84</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10.70</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">55.53</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8.98</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">64.51</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">72.84</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 6</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.71</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6.48</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">79.32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 7</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6.25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">85.58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.60</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">91.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 9</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.49</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.42</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">95.47</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">comp 10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.31</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.84</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">98.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">comp 11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">100.00</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein Modell mit 3 Faktoren vorgeschlagen.</p>
+</section>
+<section id="möglichkeit-ii---scree-plot" class="level4" data-number="2.3.1.2">
+<h4 data-number="2.3.1.2" class="anchored" data-anchor-id="möglichkeit-ii---scree-plot"><span class="header-section-number">2.3.1.2</span> Möglichkeit II - Scree-Plot</h4>
+<p>Der Scree-Plot ist ein visuell deskriptives Kriterium zur Entscheidung der Faktoren. Dabei ist das Kriterium konservativer als das Eigenwertkriterium. Wie in dem Lernbar-Video beschrieben wird der optische Knick herangezogen, um die Entscheidung über die Faktorenanzahl zu treffen. Alle Faktoren, die sich “über” dem Knick befinden, werden beibehalten.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Welches Package fürs Plotting?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche <em>ggplot2</em>-Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das <em>ggplot2</em>-Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier ein paar nützliche Links: <a href="https://pandar.netlify.app/lehre/statistik-ii/grafiken-ggplot2/">PandaR</a>, <a href="https://r4ds.had.co.nz/data-visualisation.html">R for Data Science</a> &amp; <a href="https://ggplot2-book.org/">ggplot2-Buch</a>.</p>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">1. Weg: Base-R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">2. Weg: <code>ggplot2</code> Package</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>Wir benutzen das <code>psych</code> Package, um den Scree-Plot zu erstellen. Dabei verwendet dieses Package im Hintergrund Base R für das Plotting.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scree</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rx =</span> data_item_final, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">factors =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pc =</span> <span class="cn">FALSE</span>, <span class="co"># sollen Hauptkomponenten auch dargestellt werden?</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">hline =</span> <span class="dv">1</span> <span class="co"># Plot mit Knicklinie, hline = -1 -&gt; ohne Linie</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>Wir erstellen zunächst einen Dataframe, indem die Eigenwerte und Nummerierung der Faktoren als zwei Variablen gespeichert sind. Danach werden diese Daten in Layern mittels <em>ggplot2</em> geplottet.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>eigen_res <span class="ot">&lt;-</span> <span class="fu">eigen</span>(<span class="fu">cor</span>(data_item_final))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>data_eigen <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Eigenwert =</span> eigen_res<span class="sc">$</span>values,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Faktor =</span> <span class="fu">seq_along</span>(eigen_res<span class="sc">$</span>values) <span class="co"># alternativ 1:length(eigen_res$values)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Basis-ggplot Layer</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_eigen, </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Faktor, <span class="at">y =</span> Eigenwert) <span class="co"># Zuordnung von Variablen zu Koordinatenachsen</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Horizontale Linie bei y = 1</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_hline</span>(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"darkgrey"</span>, </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">1</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"longdash"</span> </span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hinzufügen der Linien</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"royalblue4"</span>) <span class="sc">+</span> </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Hinzufügen der Punkte</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"royalblue4"</span>) <span class="sc">+</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Achsenveränderung der y-Achse</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">1</span>),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>),</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Achsenveränderung der x-Achse</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_sjplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Die Ergebnisse des Scree-Plots sind in diesem Fall nicht ganz eindeutig interpretierbar, da kein klarer Knick im Verlauf erkennbar ist. Hier wird auch ein Nachteil dieser Methode deutlich: die visuelle Interpretation bleibt immer bis zu einem gewissen Grad subjektiv. Am ehesten scheint ein Modell mit zwei Faktoren gemäß dem Scree-Plot am sinnvollsten. Daher wäre die Entscheidung gemäß dem Scree-Plot im Vergleich zum Kaiser-Kriterium konservativer.</p>
+</section>
+<section id="möglichkeit-iii---parallelanalyse" class="level4" data-number="2.3.1.3">
+<h4 data-number="2.3.1.3" class="anchored" data-anchor-id="möglichkeit-iii---parallelanalyse"><span class="header-section-number">2.3.1.3</span> Möglichkeit III - Parallelanalyse</h4>
+<p>Die letzte vorgestellte Möglichkeit ist die Parallelanalyse. Dabei werden die Eigenwerte der Faktorenanalyse des realen Datensatzes mit denen eines Datensatzes mit normalverteilten unkorrelierten Zufallsdaten verglichen, wobei Faktoren beibehalten werden, deren Eigenwerte größer sind als die gemittelten Eigenwerte der Zufallsdaten <span class="citation" data-cites="Klopp_2010">[@Klopp_2010]</span>. Anders formuliert werden Faktoren beibehalten, die mehr Varianz aufklären als rein zufällig simulierte Daten. Von den drei vorgestellten Kriterien ist diese das konservativste Kriterium.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Möglichkeit I - <em>psych</em>-Package und <em>base</em> R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Möglichkeit II - <em>ggplot2</em></a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_item_final, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"pa"</span>, <span class="co"># Principal Axis Factoring Extraktion</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>, <span class="co"># Factor Analysis (fa = "pc" für Hauptkomponentenanalyse)</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter =</span> <span class="dv">1000</span>, <span class="co"># Anzahl der Simulationen</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">quant =</span> .<span class="dv">95</span>, <span class="co"># Vergleichsintervall</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Parallelanalyse mittels Base R und psych-Package"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylabel =</span> <span class="st">"Eigenwert"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">error.bars =</span> <span class="cn">FALSE</span> <span class="co"># TRUE für Error-Bars</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  NA </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>Wir speichern zunächst die ausgegeben Daten der Funktion <code>fa.parallel()</code> in einem Objekt ab. Danach erstellen wir einen Dateframe mit den relevanten Informationen (empirische und simulierte Eigenwerte).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data_pa <span class="ot">&lt;-</span> <span class="fu">fa.parallel</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_item_final, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm=</span> <span class="st">"pa"</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">"fa"</span>, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n.iter =</span> <span class="dv">1000</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">quant =</span> .<span class="dv">95</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  NA </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataframe</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observed =</span> data_pa<span class="sc">$</span>fa.values, <span class="co"># empirisch </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Simulated =</span> data_pa<span class="sc">$</span>fa.sim    <span class="co"># simuliert</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeilennamen als eigene Variable "Factor"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>data_plot<span class="sc">$</span>Factor <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">rownames</span>(data_plot))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(data_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Observed</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Simulated</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Factor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.80</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.30</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.31</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.23</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.30</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.41</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.40</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">11</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p><br>
+Um Daten mit ggplot2 zu visualisieren, müssen sie im Long-Format vorliegen. In diesem Kontext bedeutet das, dass jede Beobachtung durch drei Variablen repräsentiert wird: eine für den Faktor, eine zur Kennzeichnung, ob der Datenpunkt simuliert oder empirisch ist, und eine für die Eigenwerte.</p>
+<p>Die praktische Funktion <code>pivot_longer()</code> aus dem tidyr-Package ermöglicht die Transformation von Dataframes vom Wide-Format ins Long-Format (analog dazu kann <code>pivot_wider()</code> von Wide zu Long genutzt werden). Dabei können wir mit dem <code>cols</code>-Argument die zu transformierenden Variablen spezifizieren, und mit <code>names_to</code> und <code>values_to</code> geben wir den neu erstellten Variablen eigene Namen.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>data_plot_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_plot,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cols =</span> <span class="fu">c</span>(Observed, Simulated),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">"Typ"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">"Eigenwert"</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(data_plot_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Factor</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Typ</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Eigenwert</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.36</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Observed</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.41</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">Simulated</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.40</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Eine alternative Methode, die ausschließlich auf <em>base</em>-R basiert, wird hier beschrieben.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_plot_long <span class="ot">&lt;-</span> <span class="fu">reshape</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_plot,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">varying =</span> <span class="fu">c</span>(<span class="st">"Observed"</span>, <span class="st">"Simulated"</span>), </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">v.names =</span> <span class="st">"Eigenwert"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">timevar =</span> <span class="st">"Typ"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">times =</span> <span class="fu">c</span>(<span class="st">"Observed"</span>, <span class="st">"Simulated"</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">direction =</span> <span class="st">"long"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Jetzt können wir die Abbildung mit <em>ggplot2</em> generieren. Dabei definieren wir neben x und y mit aes(color = Typ), dass diese Variable als Farbkodierung dargestellt werden soll.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Daten</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> data_plot_long,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aesthetics</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> Factor, <span class="at">y =</span> Eigenwert, <span class="at">color =</span> Typ)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Linien</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.7</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">8</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Punkte</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">8</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span> </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Achsenveränderungen</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>),</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Farben verändern</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"royalblue4"</span>, <span class="st">"orangered2"</span>)) <span class="sc">+</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Themes</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_sjplot</span>() <span class="sc">+</span> </span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit zwei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein zweifaktorielle Modell für die weitere Analyse.</p>
+</section>
+</section>
+<section id="extraktion-der-faktoren-rotation" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="extraktion-der-faktoren-rotation"><span class="header-section-number">2.3.2</span> Extraktion der Faktoren &amp; Rotation</h3>
+<p>Als nächsten Schritt können wir nun die eigentliche exploratorische Faktoranalyse durchführen. Wir benutzen dafür wieder ein Befehl aus dem <em>sjPlot</em>-Package, mit dem wir direkt die Faktorstruktur als Tabelle darstellen können. Es gibt aber auch viele alternative Packages, mit denen eine EFA durchgeführt werden kann (z.B. <em>psych</em> <code>fa()</code> , mit dem <em>parameters</em>-Paket <code>factor_analysis()</code> oder <em>base-</em>R <code>factanal()</code>).</p>
+<p>Wir spezifizieren ein Modell mit 2 Faktoren, die mittels <em>Principal Axis Factoring</em> extrahiert werden (<code>method = "pa"</code>) und führen anschließend eine oblimine Rotation durch (<code>rotation = "oblimin"</code>). Wie in der Lernbar bereits vorgestellt, gibt es unterschiedliche Rotationsverfahren nach der Extraktion der Faktoren. Bei orthogonalen Rotation bleiben die latenten Faktoren unkorreliert, wohingegen bei obliquer Rotation die Faktoren miteinander korrelieren dürfen. Alle Rotationsverfahren haben das Ziel, möglichst eine Einfachstruktur zu erhalten, d.h. dass jedes Item möglichst nur auf einen Faktor lädt. Für einen Vergleich verschiedener Rotationsverfahren und wann welches angewendet werden sollte: <span class="citation" data-cites="costello2005best">@costello2005best</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fit_fa <span class="ot">&lt;-</span> <span class="fu">tab_fa</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_item_final,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nmbr.fctr =</span> <span class="dv">2</span>, <span class="co"># Faktorenanzahl</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"oblimin"</span>, <span class="co"># Rotationsverfahren</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fctr.load.tlrn =</span> <span class="dv">0</span>, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pa"</span>, <span class="co"># Alternative Methoden aus Lernbar, "ml" für Maximum-Likelihood </span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Faktorenanalyse"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#file = "fit_fa.doc" # Ergebnisse können wieder als .doc gespeichert werden</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>fit_fa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Faktorenanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">&nbsp;</td>
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">Factor 1</td>
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">Factor 2</td>
+</tr>
+<tr class="even">
+<td style="border-top: 1px solid black">ub_06</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc; border-top: 1px solid black;">-0.07</td>
+<td style="text-align: center; padding: 0.2cm; border-top: 1px solid black;">0.69</td>
+</tr>
+<tr class="odd">
+<td>ub_08</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.01</td>
+<td style="text-align: center; padding: 0.2cm;">0.47</td>
+</tr>
+<tr class="even">
+<td>ub_09</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.09</td>
+<td style="text-align: center; padding: 0.2cm;">0.59</td>
+</tr>
+<tr class="odd">
+<td>ub_10</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.13</td>
+<td style="text-align: center; padding: 0.2cm;">0.37</td>
+</tr>
+<tr class="even">
+<td>ub_13</td>
+<td style="text-align: center; padding: 0.2cm;">0.26</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.21</td>
+</tr>
+<tr class="odd">
+<td>ub_14_r</td>
+<td style="text-align: center; padding: 0.2cm;">0.99</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.04</td>
+</tr>
+<tr class="even">
+<td>ub_18</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.14</td>
+<td style="text-align: center; padding: 0.2cm;">0.16</td>
+</tr>
+<tr class="odd">
+<td>ub_19</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.19</td>
+<td style="text-align: center; padding: 0.2cm;">0.54</td>
+</tr>
+<tr class="even">
+<td>ub_20</td>
+<td style="text-align: center; padding: 0.2cm;">0.73</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.03</td>
+</tr>
+<tr class="odd">
+<td>ub_24</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.20</td>
+<td style="text-align: center; padding: 0.2cm;">0.29</td>
+</tr>
+<tr class="even">
+<td>ub_27_r</td>
+<td style="text-align: center; padding: 0.2cm;">0.62</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double">Cronbach's α</td>
+<td style="text-align: center; padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double;">0.76</td>
+<td style="text-align: center; padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double;">0.67</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Der Output besteht erneut aus einer HTML-Tabelle, die die Ladungen der 11 Items auf beide Faktoren sowie die Reliabilität der beiden Skalen anzeigt. Die jeweils höhere Ladung ist dabei hervorgehoben. Wir erinnern uns daran, dass bei der EFA es zwei Selektionskriterien zur Ermittlung der bestmöglichen Einfachstruktur gibt: <em>hohe Faktorladungen</em> (Auschluss von Item <span class="math inline">\lambda &lt; .3</span> bzw. konservativer <span class="math inline">\lambda &lt; .4</span>) und Ausschluss von Items mit <em>Doppelladungen</em> (Cutoff z.B. bei <span class="math inline">\mid~ \lambda_1 - \lambda_2 \mid &lt; .1</span>). Um erneut programmatisch die Items zu ermitteln, die anhand dieser Cutoff-Kriterium ausgeschlossen werden sollten, führen wir nochmal die Faktorenanalyse mit dem <em>psych</em>-Paket durch. Der Grund dafür liegt darin, dass das <em>psych</em>-Paket als Output der Funktion die Faktorladungen ausgibt, auf die wir mithilfe der <code>loadings()</code> Funktion zugreifen können. Danach können wir mit ein bisschen Logik mit der Funktion <code>filter()</code> aus dem <em>dplyr</em>-Paket alle Items filtern, die ausgeschlossen werden sollten.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>res_psych <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">fa</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> data_item_final, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfactors =</span> <span class="dv">2</span>, <span class="co"># 2 Faktoren</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fm =</span> <span class="st">"pa"</span> <span class="co"># Principal Axis Factoring</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>df_fa <span class="ot">&lt;-</span> <span class="fu">as.data.frame.matrix</span>(<span class="fu">loadings</span>(res_psych))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df_fa<span class="sc">$</span>id_item <span class="ot">&lt;-</span> <span class="fu">rownames</span>(df_fa) <span class="co"># Neue Variable mit den Itemnamen</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>step_kick3_efa <span class="ot">&lt;-</span> df_fa <span class="sc">%&gt;%</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Kriterium</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    (PA1 <span class="sc">&lt;</span> .<span class="dv">3</span> <span class="sc">&amp;</span> PA2 <span class="sc">&lt;</span> .<span class="dv">3</span>) <span class="co"># Ladungen sowohl beim ersten als auch zweiten Faktor &lt;.3</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="sc">|</span> <span class="co"># ODER</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Kriterium</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">abs</span>(PA1 <span class="sc">-</span> PA2) <span class="sc">&lt;</span> .<span class="dv">1</span>) <span class="co"># Absolute Differenz beider Faktoren &lt; .1</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(id_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="finale-modellspezifizierung" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="finale-modellspezifizierung"><span class="header-section-number">2.3.3</span> Finale Modellspezifizierung</h3>
+<p>Die Faktorladungen von Item 13, Item 18 und Item 24 liegen unterhalb des festgelegten Cut-off-Kriteriums und wurden daher von der Filterfunktion als ausschlusswürdig identifiziert. Alle anderen Items laden weitestgehend gut auf einen Faktor und besitzen mittlere bis sehr hohe Faktorladungen. Für eine abschließende Modellspezifizierung erstellen wir einen neuen Datensatz ohne die drei genannten Variablen und führen erneut eine Faktorenanalyse durch.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data_item_final_s3_efa  <span class="ot">&lt;-</span> <span class="fu">select</span>(data_item_final, <span class="sc">-</span><span class="fu">all_of</span>(step_kick3_efa))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_fa</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_item_final_s3_efa, </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nmbr.fctr =</span> <span class="dv">2</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"oblimin"</span>, </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fctr.load.tlrn =</span> <span class="dv">0</span>, </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pa"</span>,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Finale Faktorenanalyse"</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Finale Faktorenanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">&nbsp;</td>
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">Factor 1</td>
+<td data-quarto-table-cell-role="th" style="border-top: double black; padding: 0.2cm">Factor 2</td>
+</tr>
+<tr class="even">
+<td style="border-top: 1px solid black">ub_06</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc; border-top: 1px solid black;">-0.05</td>
+<td style="text-align: center; padding: 0.2cm; border-top: 1px solid black;">0.72</td>
+</tr>
+<tr class="odd">
+<td>ub_08</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.02</td>
+<td style="text-align: center; padding: 0.2cm;">0.45</td>
+</tr>
+<tr class="even">
+<td>ub_09</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.07</td>
+<td style="text-align: center; padding: 0.2cm;">0.61</td>
+</tr>
+<tr class="odd">
+<td>ub_10</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.13</td>
+<td style="text-align: center; padding: 0.2cm;">0.33</td>
+</tr>
+<tr class="even">
+<td>ub_14_r</td>
+<td style="text-align: center; padding: 0.2cm;">0.99</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.04</td>
+</tr>
+<tr class="odd">
+<td>ub_19</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.21</td>
+<td style="text-align: center; padding: 0.2cm;">0.52</td>
+</tr>
+<tr class="even">
+<td>ub_20</td>
+<td style="text-align: center; padding: 0.2cm;">0.74</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">-0.03</td>
+</tr>
+<tr class="odd">
+<td>ub_27_r</td>
+<td style="text-align: center; padding: 0.2cm;">0.64</td>
+<td style="text-align: center; padding: 0.2cm; color: #cccccc;">0.23</td>
+</tr>
+<tr class="even">
+<td style="padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double">Cronbach's α</td>
+<td style="text-align: center; padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double;">0.83</td>
+<td style="text-align: center; padding: 0.2cm; font-style: italic; border-bottom: double; border-bottom: double;">0.67</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="deskriptive-analyse-der-faktorstruktur" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="deskriptive-analyse-der-faktorstruktur"><span class="header-section-number">2.4</span> Deskriptive Analyse der Faktorstruktur</h2>
+<p>Anschließend können wir für jeden Faktor getrennt eine finale Itemanalyse durchführen. Das <em>sjPlot</em> Paket kann dabei alle zwei Tabellen für die Faktoren gleichzeitig in einer Funktion berechnen. Dafür muss zunächst jedoch ein Index erstellt werden, der spezifiziert, welche Items zu welchem Faktor gehören. Danach kann durch das Argument <code>factor.groups</code> die Faktorstruktur spezifiziert werden.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fa_index <span class="ot">&lt;-</span> <span class="fu">tab_fa</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data_item_final_s3_efa, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nmbr.fctr =</span> <span class="dv">2</span>, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="st">"oblimin"</span>, </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fctr.load.tlrn =</span> <span class="dv">0</span>, </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pa"</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">$</span>factor.index</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fa_index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  ub_06   ub_08   ub_09   ub_10 ub_14_r   ub_19   ub_20 ub_27_r 
+      2       2       2       2       1       2       1       1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_itemscale</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_final_s3_efa, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups =</span> fa_index, </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="fu">c</span>(<span class="st">"Faktor 1"</span>, <span class="st">"Faktor 2"</span>) </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Faktor 1</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_14_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.95</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.59</td>
+<td>0.80</td>
+<td>0.65</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.40</td>
+<td>0.68</td>
+<td>0.79</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_27_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.75</td>
+<td>0.62</td>
+<td>0.84</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.626 · Cronbach's α=0.834</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Faktor 2</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.54</td>
+<td>0.52</td>
+<td>0.57</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.40</td>
+<td>0.63</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.47</td>
+<td>0.60</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.30</td>
+<td>0.67</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.44</td>
+<td>0.44</td>
+<td>0.61</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.288 · Cronbach's α=0.670</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">&nbsp;</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">Component 1</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">Component 2</td>
+</tr>
+<tr class="even">
+<td style="font-style: italic">Component 1</td>
+<td style="text-align: center; padding: 0.2cm;">α=0.834</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+</tr>
+<tr class="odd">
+<td style="font-style: italic">Component 2</td>
+<td style="text-align: center; padding: 0.2cm;">0.313<br>
+<span style="font-style:italic;">(.001)</span></td>
+<td style="text-align: center; padding: 0.2cm;">α=0.670</td>
+</tr>
+<tr class="even">
+<td colspan="3" style="text-align: right; border-bottom: double black; border-top: 1px solid black; font-style: italic; font-size: 0.9em;">Computed correlation used pearson-method with listwise-deletion.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ebenfalls sollte zusätzlich zur internen Konsistenz Cronbach´s <span class="math inline">\alpha</span> auch McDonald´s <span class="math inline">\omega</span> für jede Skala berechnet werden. Dafür erstellen wir zwei Variablen, die die Itemnamen für die beiden Skalen enthalten. Nun können wir eine kleine Funktion erstellen, mit der wir immer wieder für einen Datensatz <span class="math inline">\alpha</span> und <span class="math inline">\omega</span> berechnen können. Wir sparen uns somit die Arbeit, jedes Mal wieder den Code zu wiederholen, welcher im Body (hinter der eckigen Klammern) der Funktion steht. Wichtig ist, dass wir mit der <code>return()</code> angeben, was letztendlich dem User ausgegeben werden soll (sonst wird nichts angezeigt).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>f1_names <span class="ot">&lt;-</span> <span class="fu">names</span>(fa_index[fa_index <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>f2_names <span class="ot">&lt;-</span> <span class="fu">names</span>(fa_index[fa_index <span class="sc">==</span> <span class="dv">2</span>])</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>get_reliability <span class="ot">&lt;-</span> <span class="cf">function</span>(.data, .var_names) {</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  fit_omega <span class="ot">&lt;-</span> <span class="fu">omega</span>(.data[, .var_names], <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">omega =</span> fit_omega<span class="sc">$</span>omega.tot, </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> fit_omega<span class="sc">$</span>alpha</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Angabe, welche Objekte ausgegeben werden sollen</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">get_reliability</span>(data_item_final_s3_efa, f1_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$omega
+[1] 0.8538191
+
+$alpha
+[1] 0.8341717</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_reliability</span>(data_item_final_s3_efa, f2_names)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$omega
+[1] 0.7115663
+
+$alpha
+[1] 0.6690035</code></pre>
+</div>
+</div>
+</section>
+<section id="testwertanalyse" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="testwertanalyse"><span class="header-section-number">2.5</span> Testwertanalyse</h2>
+<p>Als letztes werden wir die deskriptiven Kennwerte der Testwerte der drei Skalen genauer betrachten. Diese müssen wir zunächst erstmal berechnen. Dafür gibt es mehrere Möglichkeiten:</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Möglichkeit I - base R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Möglichkeit II - tidyverse</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_item_final_scores <span class="ot">&lt;-</span> data_item_final_s3_efa</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>data_item_final_scores<span class="sc">$</span>f1 <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(data_item_final_scores[, f1_names])</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>data_item_final_scores<span class="sc">$</span>f2 <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(data_item_final_scores[, f2_names])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>data_item_final_scores<span class="sc">$</span>ub_score <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(data_item_final_scores)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_final_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ub_06"    "ub_08"    "ub_09"    "ub_10"    "ub_14_r"  "ub_19"   
+ [7] "ub_20"    "ub_27_r"  "f1"       "f2"       "ub_score"</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<p>Über die Funktion <code>rowwise()</code> wird angegeben, dass die nachfolgenden Operationen über die Zeilen (und nicht über die Spalten wie üblich) hinweg stattfinden sollen. Die Items, die aufsummiert werden, können über die Funktion <code>c_across(variablen)</code> angegeben werden.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data_item_final_scores <span class="ot">&lt;-</span> data_item_final_s3_efa <span class="sc">%&gt;%</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ub_score =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">everything</span>()))) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">f1 =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">all_of</span>(f1_names))),</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">f2 =</span> <span class="fu">sum</span>(<span class="fu">c_across</span>(<span class="fu">all_of</span>(f2_names)))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_final_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ub_06"    "ub_08"    "ub_09"    "ub_10"    "ub_14_r"  "ub_19"   
+ [7] "ub_20"    "ub_27_r"  "ub_score" "f1"       "f2"      </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Wir können uns mittels der <code>describe()</code> des <em>psych</em>-Pakets, welche bereits im letzten Skript vorgestellt wurde die wichtigsten deskriptiven Kennwerte ausgeben lassen.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(<span class="fu">describe</span>(data_item_final_scores<span class="sc">$</span>f1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">8.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3.50</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">8.63</td>
+<td>2.97</td>
+<td>0</td>
+<td>15</td>
+<td>15</td>
+<td>0.12</td>
+<td>-0.53</td>
+<td>0.35</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(<span class="fu">describe</span>(data_item_final_scores<span class="sc">$</span>f2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">12.32</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">4.77</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">12.40</td>
+<td>4.45</td>
+<td>1</td>
+<td>24</td>
+<td>23</td>
+<td>-0.15</td>
+<td>-0.31</td>
+<td>0.47</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Diese deskriptiven Kennwerte können wir zudem abschließend in einem Histogramm mit unterlegter Normalverteilung visualisieren. Wir benutzen für das Plotten der Normalverteilung das Package <code>ggh4x</code> mit der Funktion <code>stat_theodensity()</code>. Das praktische hierbei ist, dass wir nicht aktiv die Parameter der Normalverteilung (<em>M</em> und <em>SD</em>) angeben müssen, sondern die Funktion das für uns im Hintergrund auf Basis der Daten berechnet. Im nachfolgenden Beispiel wird der Plot für den Gesamttestwert (alle Items) berechnet. Wenn eine der 3 Skalen geplottet werden soll, muss dies nur in der <code>ggplot()</code> Funktion angegeben werden (s.h. Code).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggh4x)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_item_final_scores, <span class="fu">aes</span>(<span class="at">x =</span> ub_score)) <span class="sc">+</span>  <span class="co"># oder x = f1/f2</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">3</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_theodensity</span>(</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count)), </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">distri =</span> <span class="st">"norm"</span>, </span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"royalblue4"</span>,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.5</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Umweltbewusstsein"</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>), <span class="co"># Achsenlimit</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">5</span>), <span class="co"># Achsenabschnitte</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Häufigkeit"</span>,</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>),</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">5</span>),</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_sjplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Für diejenigen unter euch, die sich in etwas anspruchvolleres R bzw. <em>ggplot2</em> Territorium wagen wollen: Es gibt auch die Möglichkeit, alle Skalen gleichzeitig in einer Abbildung darzustellen. Um jeden einzelnen Schritt der großen Pipe zu verstehen, geht am besten jeden einzelnen Layer durch und schaut, wie sich der Plot verändert. Auch kann es hilfreich sein, wenn man die einzelnen Parameter in den Layern verändert, um zu schauen, was diese bewirken. Es reicht allerdings natürlich auch völlig aus, wenn ihr euch an dem letzten Plot orientiert!</p>
+<div class="cell" data-layout-align="center">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggh4x)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jcolors)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>strip_labels <span class="ot">&lt;-</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="at">f1 =</span> <span class="st">"Factor 1"</span>, <span class="at">f2 =</span> <span class="st">"Factor 2"</span>, <span class="at">ub_score =</span> <span class="st">"Gesamtscore"</span>))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>data_item_final_scores <span class="sc">%&gt;%</span> </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Variablen auswählen, die benötigt werden</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(f1, f2, ub_score) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Vom Wide ins Long-Format</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"factor"</span>,</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"score"</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ggplot Base Layer</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> score, <span class="at">fill =</span> factor)) <span class="sc">+</span> </span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># facet_wrap erstellt kleineres Plotting Fenster anhand einer Variable</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(</span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">facets  =</span> <span class="fu">vars</span>(factor), <span class="co"># Variable, welche gefacetted werden soll</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">labeller =</span> strip_labels, <span class="co"># Facet Labels</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">scales =</span> <span class="st">"free"</span>  <span class="co"># freies Koordinatensystem</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a>    )  <span class="sc">+</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Histogramm</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">15</span>,</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span>,</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">fill =</span> factor)</span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theoretische Normalverteilung</span></span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_theodensity</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count), <span class="at">color =</span> factor)) <span class="sc">+</span></span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Achsenmanipulation in den einzelnen Facets</span></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facetted_pos_scales</span>(</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">list</span>(</span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>      factor <span class="sc">==</span> <span class="st">"f1"</span> <span class="sc">~</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>)),</span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>      factor <span class="sc">==</span> <span class="st">"f2"</span> <span class="sc">~</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>)),</span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>      factor <span class="sc">==</span> <span class="st">"ub_score"</span> <span class="sc">~</span> <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>))</span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Achsenmanipulation &amp; Beschriftung</span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">40</span>),</span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span>, <span class="dv">10</span>)</span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Score"</span>) <span class="sc">+</span> </span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Häufigkeit"</span>) <span class="sc">+</span></span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Farben</span></span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"royalblue4"</span>, <span class="st">"orangered2"</span>, <span class="st">"ivory4"</span>)) <span class="sc">+</span></span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"royalblue4"</span>, <span class="st">"orangered2"</span>, <span class="st">"ivory4"</span>)) <span class="sc">+</span></span>
+<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">"none"</span>, <span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme</span></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_sjplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_efa_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="session-info" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="session-info"><span class="header-section-number">2.6</span> Session Info</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Erweitern für Session Info
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.3.1 (2023-06-16)
+ os       macOS Sonoma 14.1.1
+ system   aarch64, darwin20
+ ui       X11
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       Europe/Berlin
+ date     2023-11-27
+ pandoc   3.1.4 @ /opt/homebrew/bin/ (via rmarkdown)
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ package    * version date (UTC) lib source
+ dplyr      * 1.1.3   2023-09-03 [1] CRAN (R 4.3.0)
+ FactoMineR * 2.9     2023-10-12 [1] CRAN (R 4.3.1)
+ forcats    * 1.0.0   2023-01-29 [1] CRAN (R 4.3.0)
+ ggh4x      * 0.2.6   2023-08-30 [1] CRAN (R 4.3.0)
+ ggplot2    * 3.4.4   2023-10-12 [1] CRAN (R 4.3.1)
+ here       * 1.0.1   2020-12-13 [1] CRAN (R 4.3.0)
+ jcolors    * 0.0.5   2023-09-26 [1] Github (jaredhuling/jcolors@81e72c8)
+ lubridate  * 1.9.2   2023-02-10 [1] CRAN (R 4.3.0)
+ psych      * 2.3.9   2023-09-26 [1] CRAN (R 4.3.1)
+ purrr      * 1.0.2   2023-08-10 [1] CRAN (R 4.3.0)
+ readr      * 2.1.4   2023-02-10 [1] CRAN (R 4.3.0)
+ sjPlot     * 2.8.15  2023-08-17 [1] CRAN (R 4.3.0)
+ skimr      * 2.1.5   2022-12-23 [1] CRAN (R 4.3.0)
+ stringr    * 1.5.0   2022-12-02 [1] CRAN (R 4.3.0)
+ tibble     * 3.2.1   2023-03-20 [1] CRAN (R 4.3.0)
+ tidyr      * 1.3.0   2023-01-24 [1] CRAN (R 4.3.0)
+ tidyverse  * 2.0.0   2023-02-22 [1] CRAN (R 4.3.0)
+
+ [1] /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library
+
+──────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./script_itemanalysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Itemanalyse</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

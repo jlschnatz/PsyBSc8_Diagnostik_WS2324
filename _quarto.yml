@@ -1,37 +1,40 @@
 project:
-  output-dir: output
-  type: default
+  output-dir: "_book"
+  type: book
 
+book:
+  title: "PsyBSc8 Diagnostik - R Skript"
+  author: "Luca Schnatz & Arieja Farugie"
+  search: true
+  repo-url: https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324
+  repo-branch: main
+  repo-actions: [edit, issue]
+  downloads: [pdf]
+  date: today
+  date-format: "DD.MM.YYYY"
+  chapters: 
+    - index.qmd
+    - script_itemanalysis.qmd
+    - script_efa.qmd
+abstract: "In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde."  
 toc: true
+toc-title: "Inhalteverzeichnis"
+toc-depth: 4
 number-sections: true
 engine: knitr
-
-format:
+format: 
   html:
-    title     : "PsyBSc8 R Script"
-    author    : "Luca Schnatz & Arieja Farugie"
     affiliation: "Institut für Psychologie, Goethe Universität"
-    html-math-method: katex
     mainfont: "Avenir Next"
-    code-overflow: wrap
+    html-math-method: "katex"
+    code-overflow: "wrap"
     code-block-bg: true
     smooth-scroll: true
-    self-contained: true
-    toc: true
-    toc-depth: 4
     touch: true
-    theme: zephyr
-    fontsize: 13pt
-    toc-title: "Inhalt"
-    highlight-style: kate
+    theme: "zephyr"
+    fontsize: "13pt"
+    highlight-style: "kate"
     css: "styles.css"
-    bibliography: references.bib
-    csl: "apa.csl"
-    grid: 
-      sidebar-width: 0px
-      margin-width: 300px
-      body-width: 1200px
-      gutter-width: 100px
     include-in-header:
     - text: |
         <style>
@@ -40,6 +43,46 @@ format:
           border: none;
         }
         </style>
-      
-
-
+    grid:
+      sidebar-width: 250px
+      margin-width: 200px
+      body-width: 1200px
+      gutter-width: 50px
+    
+# format:
+#   html:
+#     # title     : "PsyBSc8 R Script"
+#     # author    : "Luca Schnatz & Arieja Farugie"
+#     # affiliation: "Institut für Psychologie, Goethe Universität"
+#     html-math-method: katex
+#     mainfont: "Avenir Next"
+#     code-overflow: wrap
+#     code-block-bg: true
+#     smooth-scroll: true
+#     self-contained: true
+#     toc: true
+#     toc-depth: 4
+#     touch: true
+#     theme: zephyr
+#     fontsize: 13pt
+#     toc-title: "Inhalt"
+#     highlight-style: kate
+#     css: "styles.css"
+#     bibliography: references.bib
+#     csl: "apa.csl"
+#     grid: 
+#       sidebar-width: 0px
+#       margin-width: 300px
+#       body-width: 1200px
+#       gutter-width: 100px
+#     include-in-header:
+#     - text: |
+#         <style>
+#         .panel-tabset > .nav-tabs,
+#         .panel-tabset > .tab-content {
+#           border: none;
+#         }
+#         </style>
+#       
+# 
+# 

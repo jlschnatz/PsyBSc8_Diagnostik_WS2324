@@ -1,0 +1,3106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>PsyBSc8 Diagnostik - R Skript - 1&nbsp; Itemanalyse</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./script_efa.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+.panel-tabset > .nav-tabs,
+.panel-tabset > .tab-content {
+  border: none;
+}
+</style>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./script_itemanalysis.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Itemanalyse</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">PsyBSc8 Diagnostik - R Skript</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./PsyBSc8-Diagnostik---R-Skript.pdf" rel="" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einleitung</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./script_itemanalysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Itemanalyse</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./script_efa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">EFA</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhalteverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#einleitung" id="toc-einleitung" class="nav-link active" data-scroll-target="#einleitung"><span class="header-section-number">1.1</span> Einleitung</a></li>
+  <li><a href="#einlesen-der-daten" id="toc-einlesen-der-daten" class="nav-link" data-scroll-target="#einlesen-der-daten"><span class="header-section-number">1.2</span> Einlesen der Daten</a></li>
+  <li><a href="#deskriptive-analyse" id="toc-deskriptive-analyse" class="nav-link" data-scroll-target="#deskriptive-analyse"><span class="header-section-number">1.3</span> Deskriptive Analyse</a></li>
+  <li><a href="#itemanalyse" id="toc-itemanalyse" class="nav-link" data-scroll-target="#itemanalyse"><span class="header-section-number">1.4</span> Itemanalyse</a>
+  <ul>
+  <li><a href="#rekodierung-inverser-items" id="toc-rekodierung-inverser-items" class="nav-link" data-scroll-target="#rekodierung-inverser-items"><span class="header-section-number">1.4.1</span> Rekodierung inverser Items</a></li>
+  <li><a href="#itemanalyse-i-schwierigkeit" id="toc-itemanalyse-i-schwierigkeit" class="nav-link" data-scroll-target="#itemanalyse-i-schwierigkeit"><span class="header-section-number">1.4.2</span> Itemanalyse I: Schwierigkeit</a></li>
+  <li><a href="#itemanalyse-ii-trennschärfe" id="toc-itemanalyse-ii-trennschärfe" class="nav-link" data-scroll-target="#itemanalyse-ii-trennschärfe"><span class="header-section-number">1.4.3</span> Itemanalyse II: Trennschärfe</a></li>
+  </ul></li>
+  <li><a href="#zusatz" id="toc-zusatz" class="nav-link" data-scroll-target="#zusatz"><span class="header-section-number">1.5</span> Zusatz</a></li>
+  <li><a href="#ausblick" id="toc-ausblick" class="nav-link" data-scroll-target="#ausblick"><span class="header-section-number">1.6</span> Ausblick</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info"><span class="header-section-number">1.7</span> Session Info</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/edit/main/script_itemanalysis.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Itemanalyse</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="abstract-title">Abstract</div>
+    In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Seminar ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse (EFA) durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
+  </div>
+</div>
+
+</header>
+
+<section id="einleitung" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="einleitung"><span class="header-section-number">1.1</span> Einleitung</h2>
+<p>Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu <strong>Umweltbewusstsein</strong>, welcher die Einstellung von Personen gegenüber dem Umweltschutz misst. Spezifisch wurde dieses Konstrukt auf Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 teilnehmenden Personen. In der folgenden Tabelle erhaltet ihr eine Übersicht über die Items des Konstrukts.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Übersichtstabelle der Items zu <em>Umweltbewusstsein</em></caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_01</strong> ~ Ich trenne Müll</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_02</strong> ~ Ich stecke nicht-benutzte Elektrogeräte aus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_03</strong> ~ Ich nutze Strom aus erneuerbaren Energien</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_04</strong> ~ Ich nutze den ÖPNV</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_05</strong> ~ Ich schalte das Licht in nicht-genutzten Räumen aus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_06</strong> ~ Ich achte beim Einkauf von Elektrogeräten auf Umweltsiegel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_07</strong> ~ Wenn ich lüfte, mache ich die Heizung aus</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_08</strong> ~ Ich fahre sprit-sparend Auto</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_09</strong> ~ Ich achte beim Klamottenkauf auf kurze Lieferwege</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_10</strong> ~ Ich verkaufe/spende/ verschenke gebrauchte Gegenstände</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_11</strong> ~ Ich beschreibe Vorder- und Rückseite eines Blattes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_12</strong> ~ Ich benutze Einmal-Hygiene Artikel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_13</strong> ~ Bei Kurzstrecken laufe ich</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_14</strong> ~ Ich esse Fleisch</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_15</strong> ~ Ich kaufe regionale Lebensmittel</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_16</strong> ~ Ich kaufe unverpackte Lebensmittel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_17</strong> ~ Ich werfe Lebensmittel weg</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_18</strong> ~ Ich kaufe Second-Hand-Kleidung</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_19</strong> ~ Ich achte beim Kauf von Hygieneartikeln auf biologisch abbaubare Inhaltsstoffe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_20</strong> ~ Ich verzichte auf tierische Produkte</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_21</strong> ~ Ich nehme an Food-Sharing-Projekten teil</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_22</strong> ~ Ich lasse beim Spülen das Wasser laufen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_23</strong> ~ An öffentlichen Orten hinterlasse ich Müll</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_24</strong> ~ Ich benutze wieder-verwendbare Behältnisse</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_25</strong> ~ Ich bewege mich bei Kurstrecken mit dem Fahrrad fort</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_26</strong> ~ Ich fliege Kurzstrecken</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_27</strong> ~ Ich esse Fleisch aus Massentierhaltung</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>ub_28</strong> ~ Ich kaufe Second-Hand-Möbel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;"><strong>ub_29</strong> ~ Ich fliege in den Urlaub</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="einlesen-der-daten" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="einlesen-der-daten"><span class="header-section-number">1.2</span> Einlesen der Daten</h2>
+<p>Der Datensatz ist in diesem Fall als <code>.rds</code>-Datei gespeichert und kann mittels der Funktion (<code>readRDS()</code>) eingelesen werden.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Information zum Einlesen von Daten
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format gespeichert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder -Komma, -Semikolon oder Tab-Separator) einzulesen, können entweder Base-R Funktionen&nbsp;(<code>read.csv()</code>, <code>read.csv2()</code> bzw. <code>read.delim()</code>) oder z.B. Funktionen des <em>readr-</em>Packages aus der Familie des <a href="https://www.tidyverse.org/"><em>tidyverse</em></a> genutzt werden (<code>read_csv()</code>, <code>read_csv2()</code> und <code>read_tsv()</code>). Um Excel-Dateien einlesen zu können, kann das <em>readxl</em>-Package genutzt werden (<code>read_excel()</code>)</p>
+</div>
+</div>
+<p>Ihr habt die Möglichkeit, den Datensatz entweder lokal von euren Computer einzulesen oder alternativ einen Permalink aus dem dazugehörigen <a href="https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324">GitHub-Repository</a> zu verwenden (dafür ist natürlich eine Internetverbindung erforderlich).</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Möglichkeit I: Lokal</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Möglichkeit II: Link</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Ladet den Datensatz aus OLAT herunter und stellt euer Working Directory richtig ein (<code>setwd()</code>). Danach kann der Datensatz folgendermaßen eingelesen werden <code>readRDS("data_ub_raw.rds")</code>. Alternativ wäre eine allgemeine Empfehlung R-Projects zu nutzen, dann müsst ihr nicht mehr euer Working Directory einstellen und könnt relative Dateipfade nutzen <code>readRDS("path/to/data/data_ub_raw.rds")</code>. Wer daran interessiert ist, findet unter diesem <a href="https://r4ds.hadley.nz/workflow-scripts.html#rstudio-projects">Link</a> weitere Ressourcen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/luca/PowerFolders/Hiwi_Arbeit/DPPD/PsyBSc8_Diagnostik_WS2324</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/raw/data_ub_raw.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Durch Verwendung eines Permalinks können die Daten direkt von GitHub abgerufen werden. Dazu muss lediglich der Link als String in die Funktion <code>url()</code> eingegeben werden und kann anschließend wie gewohnt eingelesen werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>permalink <span class="ot">&lt;-</span> <span class="st">"https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/raw/95ba618424d0465f7e0bfea4cc5ac840d82ad74e/data/raw/data_ub_raw.rds"</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (curl<span class="sc">::</span><span class="fu">has_internet</span>()) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  data_raw <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">url</span>(permalink))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel <code>skim()</code> oder <code>str()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># Datenmanipulation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr) <span class="co"># Hilfreich für Überblick von Dataframes</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> data_raw <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(ub_01<span class="sc">:</span>ub_29) <span class="co"># oder select(starts_with("ub_"))</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">subset</span>(data_raw, <span class="at">select =</span> ub_01<span class="sc">:</span>ub_29) <span class="co"># Alternative</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Überblick über den Datensatz</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(data_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">data_raw</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">104</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">factor</td>
+<td style="text-align: left;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: left;">ordered</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: left;">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id_case</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">104</td>
+<td style="text-align: left;">63: 1, 64: 1, 67: 1, 70: 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dd_sex</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Wei: 67, Män: 34, Div: 0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dd_wohn1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Mit: 36, Mit: 28, In : 19, All: 18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dd_wohn2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">Stä: 40, Län: 27, Ehe: 21, Ehe: 13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dd_bildung</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Abi: 44, Hoc: 26, Ber: 17, Rea: 11</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">dd_alter</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">31.27</td>
+<td style="text-align: right;">15.12</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: left;">▇▂▂▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_01</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">4.09</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▁▁▇▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_02</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: right;">1.38</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▅▃▆▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_03</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.29</td>
+<td style="text-align: right;">1.34</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▆▇▆▂▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_04</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.56</td>
+<td style="text-align: right;">1.68</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▅▅▃</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_05</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">4.33</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▁▂▇▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_06</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.69</td>
+<td style="text-align: right;">1.62</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▆▅▅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_07</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.26</td>
+<td style="text-align: right;">1.84</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▆▂▂▆▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_08</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▆▆▆▇▆</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_09</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▂▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_10</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.99</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▃▇▇▇▅</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_11</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.38</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▃▅▇▇▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_12</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▇▆▂▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_13</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.66</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▂▂▆▆▇</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_14</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▆▇▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_15</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.86</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▃▇▂▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_16</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.29</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">▁▃▇▇▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_17</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▂▇▁▇▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_18</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">▇▇▃▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_19</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.19</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▅▅▂▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_20</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▆▃▁▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_21</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">▇▂▁▂▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_22</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.21</td>
+<td style="text-align: right;">1.24</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_23</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.12</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_24</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">3.78</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▁▁▅▇▃</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_25</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">2.20</td>
+<td style="text-align: right;">1.65</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▆▅▂▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_26</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_27</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.27</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▃▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ub_28</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.17</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">▇▆▅▂▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ub_29</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.58</td>
+<td style="text-align: right;">1.13</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">▇▆▂▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Bevor wir mit der deskriptiven Analyse beginnen, sollten wir noch überprüfen, ob es fehlende Werte (<em>NAs</em>) im Datensatz gibt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(data_item)) <span class="co"># Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 87</code></pre>
+</div>
+</div>
+<p>In diesem Fall sind 87 fehlende Werte vorhanden. Um die fehlenden Werte genauer zu explorieren, sollte am Rande das <em>naniar</em>-Package erwähnt werden, da es einige nützliche Funktionen diesbezüglich enthält. Wir können zum Beispiel über die cases (Proband:innen) hinweg die prozentuale Häufigkeit an Missings visualisieren.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_case</span>(data_item, <span class="at">show_pct =</span> <span class="cn">TRUE</span>, <span class="at">order_cases =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="script_itemanalysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wir sehen, dass drei Proband:innen den kompletten Fragebogen nicht ausgefüllt haben, weswegen mit der Funktion <code>na.omit()</code> ausgeschlossen werden.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Disclaimer zu fehlenden Werten
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Es sollte zumindest am Rande erwähnt werden, dass die Funktion <code>na.omit()</code> sehr mächtig ist und nur mit Vorsicht verwendet werden sollte. Ohne weitere Überlegungen NAs auszuschließen, deren Fehlen möglicherweise nicht zufällig ist, sondern durch andere (nicht)-erhobene Variablen bedingt sind, kann zu Verzerrungen führen. Im Zweifel sprecht ihr euch am besten mit eurer/eurem Dozent:in ab, wie ihr mit fehlenden Werten umgehen sollt. Falls ihr euch mehr mit dem Thema NAs auseinandersetzen wollt, hier ein spannender <a href="https://www.iriseekhout.com/post/2022-06-28-missingdatamechanisms/">Blogpost</a>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_item <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(data_item)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(data_item)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+</section>
+<section id="deskriptive-analyse" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="deskriptive-analyse"><span class="header-section-number">1.3</span> Deskriptive Analyse</h2>
+<p>Bevor wir die Itemanalyse durchführen, wollen wir uns zunächst ein wenig mit den Daten vertraut machen. Hierfür benötigen wir zwei Packages: Das <em>psych</em>-Package beinhaltet sehr viele Funktionen und Befehle, die auch für viele andere Analysen hilfreich sind. Das Package <em>janitor</em> ist eine bessere Alternative zum Basis-Befehl <code>table()</code> und ist besonders informativ bei Häufigkeitstabellen.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp für die Präsentationen &amp; Hausarbeit
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Für die Abschlussberichte, braucht ihr die ganzen deskriptiven Informationen in APA7 formatierten Tabellen. Hierfür eignet sich besonders das Package <code>sjPlot</code>. Als Beispiel speichern wir zunächst die die vorherige deskriptive Statistik aller Items als ein Objekt ab. Danach erstellen wir mit einer Funktion des genannten Packages eine schön formatierte Tabelle. Die erstellte Tabelle kann sogar direkt als Word-Dokument abgespeichert werden, um danach noch weiter angepasst zu werden (z.B. Erstellen von Fußnoten, Tabellen-Titel, etc.). Wichtig dabei ist, dass nur die Endung .doc und nicht .docx funktioniert.</p>
+</div>
+</div>
+<p>Für die Berechnung deskriptiver Kennwerte (Mittelwert, Standardabweichung, Median, etc.) können wir die <code>describe()</code> Funktion des <em>psych</em>-Packages verwenden:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>descr_data_item <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_item)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_data_item, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">show.rownames =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#file = table_descr_item.doc # Speichern als .doc Datei</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>4.21</td>
+<td>0.00</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-2.21</td>
+<td>8.27</td>
+<td>0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.50</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.46</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.13</td>
+<td>-1.27</td>
+<td>0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.26</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.23</td>
+<td>-0.46</td>
+<td>0.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>2.58</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.05</td>
+<td>-1.29</td>
+<td>0.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.81</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>4.46</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-1.86</td>
+<td>6.44</td>
+<td>0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">6</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>2.74</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.11</td>
+<td>-1.22</td>
+<td>0.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">7</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.26</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.84</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>3.44</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.70</td>
+<td>-1.04</td>
+<td>0.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">8</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>3.10</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.41</td>
+<td>-0.83</td>
+<td>0.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td>1.30</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.93</td>
+<td>0.52</td>
+<td>0.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>3.06</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.34</td>
+<td>-0.50</td>
+<td>0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.37</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>3.52</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.62</td>
+<td>-0.35</td>
+<td>0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.40</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.16</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.27</td>
+<td>-0.48</td>
+<td>0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>3.81</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.85</td>
+<td>0.24</td>
+<td>0.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.40</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.01</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.04</td>
+<td>-0.84</td>
+<td>0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.74</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>2.83</td>
+<td>0.00</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+<td>0.22</td>
+<td>0.48</td>
+<td>0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.32</td>
+<td>1.48</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+<td>-0.30</td>
+<td>-0.30</td>
+<td>0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>3.48</td>
+<td>1.48</td>
+<td>2</td>
+<td>5</td>
+<td>3</td>
+<td>-0.23</td>
+<td>-0.37</td>
+<td>0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td>1.02</td>
+<td>1.48</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+<td>0.90</td>
+<td>0.03</td>
+<td>0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.14</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.23</td>
+<td>-0.89</td>
+<td>0.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>1.90</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.43</td>
+<td>-0.49</td>
+<td>0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.89</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0</td>
+<td>0.33</td>
+<td>0.00</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+<td>1.51</td>
+<td>1.02</td>
+<td>0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td>1.02</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.93</td>
+<td>0.24</td>
+<td>0.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_23</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">23</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3</td>
+<td>3.01</td>
+<td>0.00</td>
+<td>3</td>
+<td>5</td>
+<td>2</td>
+<td>2.96</td>
+<td>8.63</td>
+<td>0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4</td>
+<td>3.85</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>-0.80</td>
+<td>1.34</td>
+<td>0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td>2.12</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.22</td>
+<td>-1.05</td>
+<td>0.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_26</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">26</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.81</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0</td>
+<td>0.14</td>
+<td>0.00</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>3.43</td>
+<td>13.66</td>
+<td>0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td>1.12</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.96</td>
+<td>0.95</td>
+<td>0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1</td>
+<td>1.02</td>
+<td>1.48</td>
+<td>0</td>
+<td>4</td>
+<td>4</td>
+<td>0.74</td>
+<td>-0.38</td>
+<td>0.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.58</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">2</td>
+<td>1.51</td>
+<td>1.48</td>
+<td>0</td>
+<td>5</td>
+<td>5</td>
+<td>0.73</td>
+<td>0.79</td>
+<td>0.11</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Wenn wir nur eine spezifische Variable deskriptiv betrachten wollen (z.B. <code>dd_alter</code>), kann in der gleichen Funktion die Variable direkt angesteuert werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>descr_age <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">describe</span>(data_raw<span class="sc">$</span>dd_alter)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_df</span>(descr_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">31.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">15.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">29.28</td>
+<td>7.41</td>
+<td>14</td>
+<td>81</td>
+<td>67</td>
+<td>1.07</td>
+<td>-0.02</td>
+<td>1.50</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Für alle kategoriellen Daten (z.B. Geschlecht, Wohnort, Bildung) benötigen keine Mittelwerte oder Standardabweichungen, sondern nutzen Häufigkeitsverteilung zur deskriptiven Beschreibung. Hier kommt jetzt das <em>janitor</em>-Package zum Einsatz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>descr_sex <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">data_raw.dd_sex</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">percent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Männlich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Weiblich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">Divers</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eines zusätzlichen Arguments möglich.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>descr_sex_na <span class="ot">&lt;-</span> <span class="fu">tabyl</span>(data_raw<span class="sc">$</span>dd_sex, <span class="at">show_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_df</span>(descr_sex_na)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">data_raw.dd_sex</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">percent</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">valid_percent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Männlich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Weiblich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.64</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Divers</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">NA</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Zudem können wir mit dem <em>psych</em>-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des <em>sjPlot</em>-Package in einer Tabelle dargestellt werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>descr_age_by_sex <span class="ot">&lt;-</span> <span class="fu">describeBy</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> data_raw<span class="sc">$</span>dd_alter, <span class="at">group =</span> <span class="fu">droplevels</span>(data_raw<span class="sc">$</span>dd_sex) <span class="co"># Nicht angegebenes Level (Divers) des Faktors entfernen</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> descr_age_by_sex,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">"Männlich"</span>,<span class="st">"Weiblich"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Männlich</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">26.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">10.20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">23.50</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">24.93</td>
+<td>4.45</td>
+<td>14</td>
+<td>58</td>
+<td>44</td>
+<td>1.72</td>
+<td>2.57</td>
+<td>1.75</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Weiblich</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">33.61</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">16.67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">32</td>
+<td>8.90</td>
+<td>14</td>
+<td>81</td>
+<td>67</td>
+<td>0.75</td>
+<td>-0.76</td>
+<td>2.04</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Es gibt auch die Möglichkeit mehrere Tabellen in ein Dokument zu packen und diese in einem Word-Dokument zu speichern:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex_na),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">"Descriptives of Age"</span>, <span class="st">"Descriptives of Sex"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Descriptives of Age</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">vars</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">sd</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">median</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">trimmed</td>
+<td data-quarto-table-cell-role="th">mad</td>
+<td data-quarto-table-cell-role="th">min</td>
+<td data-quarto-table-cell-role="th">max</td>
+<td data-quarto-table-cell-role="th">range</td>
+<td data-quarto-table-cell-role="th">skew</td>
+<td data-quarto-table-cell-role="th">kurtosis</td>
+<td data-quarto-table-cell-role="th">se</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">101</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">31.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">15.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">29.28</td>
+<td>7.41</td>
+<td>14</td>
+<td>81</td>
+<td>67</td>
+<td>1.07</td>
+<td>-0.02</td>
+<td>1.50</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Descriptives of Sex</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">data_raw$dd_sex</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">n</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">percent</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">valid_percent</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Männlich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Weiblich</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.64</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Divers</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">NA</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">NA</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_dfs</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(descr_age, descr_sex),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">titles =</span> <span class="fu">c</span>(<span class="st">"Descriptives of Age"</span>,<span class="st">"Descriptives of Sex"</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"descriptives_all.doc"</span> <span class="co"># wieder als .doc abspeichern</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="itemanalyse" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="itemanalyse"><span class="header-section-number">1.4</span> Itemanalyse</h2>
+<section id="rekodierung-inverser-items" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="rekodierung-inverser-items"><span class="header-section-number">1.4.1</span> Rekodierung inverser Items</h3>
+<p>Für die Itemanalyse benötigen wir den Datensatz in denen nur die Items vorhanden sind. Diesen haben wir bereits in einem vorherigen Schritt erstellt. Bevor wir die Itemanalyse jedoch durchführen, müssen wir alle Items, die inverse kodiert sind rekodieren.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Rekodierung leicht gemacht!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dafür speichern wir alle inversen Items zunächst in einem Vektor ab. Anschließend verwenden wir die <code>mutate()</code> Funktion des <em>dplyr</em>-Package, mit welcher wir Variablen manupulieren/verändern können. Wir müssen dabei den Zusatz <code>across()</code> hinzunehmen, da wir mehreren Variablen gleichzeitig verändern wollen. Das Argument <code>.cols</code> gibt dabei an, welche Variablen wir verändern wollen. Mit dem Argument <code>.fns</code> spezifizieren wir, welche Funktion wir auf die Variablen anwenden wollen. Wir verwenden die Funktion <code>rec()</code> aus dem <em>sjmisc</em>-Package. Die etwas ungewöhnliche Schreibweise mit der Tilde <code>~</code>und dem <code>.x</code> setzt sich wie folgt zusammen: Die Tilde müssen wir immer dann verwenden, wenn wir bei der Funktion, die wir anwenden zusätzlich Argumente spezifizieren (<code>rec = "rev"</code>). Das <code>.x</code> verwenden wir als Platzhalter für alle Variablen, die wir verändern wollen. Schließlich können wir mit dem <code>.names</code> Argument einen Namen für alle veränderten Variablen spezifizieren. Das Prefix <code>{col}</code> steht dabei für den ursprünglichen Variablenname. Mit dem Zusatz <code>{col_r}</code> wird hängen wir dem Präfix noch ein Suffix an. Das Suffix kennzeichnet dabei, dass wir die Items rekodiert haben.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>inverse_items <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"ub_"</span>, <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">22</span>, <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">27</span>, <span class="dv">29</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> data_item <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.cols =</span> <span class="fu">all_of</span>(inverse_items), </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">.fns =</span> <span class="sc">~</span>sjmisc<span class="sc">::</span><span class="fu">rec</span>(.x, <span class="at">rec =</span> <span class="st">"rev"</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">.names =</span> <span class="st">"{.col}_r"</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">%&gt;%</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(inverse_items))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ub_01"   "ub_02"   "ub_03"   "ub_04"   "ub_05"   "ub_06"   "ub_07"  
+ [8] "ub_08"   "ub_09"   "ub_10"   "ub_11"   "ub_13"   "ub_15"   "ub_16"  
+[15] "ub_18"   "ub_19"   "ub_20"   "ub_21"   "ub_24"   "ub_25"   "ub_28"  
+[22] "ub_12_r" "ub_14_r" "ub_17_r" "ub_22_r" "ub_23_r" "ub_26_r" "ub_27_r"
+[29] "ub_29_r"</code></pre>
+</div>
+</div>
+<p>Wir sehen, dass die Variablen jetzt nicht mehr in der “richtigen” Reihenfolge sind, da alle rekodierten Items am Ende des Dataframes auftauchen. Wir können die ursprüngliche Reihenfolge der Items wiederherstellen, indem wir diese in einem Vektor spezifizieren. Anschließend verwenden wir wieder die <code>select()</code> Funktion und bringen dadurch die Variablen in die gewünschte Reihenfolge.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>col_order <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">colnames</span>(data_item_rec))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>data_item_rec <span class="ot">&lt;-</span> <span class="fu">select</span>(data_item_rec, <span class="fu">all_of</span>(col_order))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_item_rec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ub_01"   "ub_02"   "ub_03"   "ub_04"   "ub_05"   "ub_06"   "ub_07"  
+ [8] "ub_08"   "ub_09"   "ub_10"   "ub_11"   "ub_12_r" "ub_13"   "ub_14_r"
+[15] "ub_15"   "ub_16"   "ub_17_r" "ub_18"   "ub_19"   "ub_20"   "ub_21"  
+[22] "ub_22_r" "ub_23_r" "ub_24"   "ub_25"   "ub_26_r" "ub_27_r" "ub_28"  
+[29] "ub_29_r"</code></pre>
+</div>
+</div>
+</section>
+<section id="itemanalyse-i-schwierigkeit" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="itemanalyse-i-schwierigkeit"><span class="header-section-number">1.4.2</span> Itemanalyse I: Schwierigkeit</h3>
+<p>Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem <em>sjPlot-</em>Package:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Schritt I
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Im ersten Schritt der Itemanalyse schauen wir uns die Schwierigkeiten der Items an und schließen Items aus, die zu schwer beziehungsweise zu leicht sind. Eine Faustregel, die auch in den Präsentationsfolien zur Itemanalyse erwähnt wurde, besagt, dass wir Items beibehalten sollten, bei denen <span class="math inline">0.2 &lt; P_i &lt; 0.8</span> gilt. Dabei steht <span class="math inline">P_i</span> für die Itemschwierigkeit. Von dieser Faustregel kann jedoch auch abgewichen werden bei der Erfassung von Konstrukten mit extremer Streuung oder wenn gezielt besonders schwere oder leichte Items im Konstrukt enthalten sein sollen (<span class="math inline">.05 &lt; P_i &lt; 0.95</span>)</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>item_analysis_1 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_rec,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">"Erste Itemanalyse"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>item_analysis_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Erste Itemanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-2.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.82</td>
+<td>0.33</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.50</td>
+<td>0.25</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.46</td>
+<td>0.24</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.51</td>
+<td>0.15</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.33</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.81</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.87</td>
+<td>0.17</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.54</td>
+<td>0.35</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.26</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.84</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.72</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.65</td>
+<td>0.28</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.38</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.32</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.37</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.37</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.64</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.68</td>
+<td>0.28</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_12_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.56</td>
+<td>0.09</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.73</td>
+<td>0.43</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_14_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.95</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.59</td>
+<td>0.50</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.74</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.57</td>
+<td>0.15</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.31</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.57</td>
+<td>0.26</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_17_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.71</td>
+<td>0.21</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.29</td>
+<td>0.30</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td>0.50</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.40</td>
+<td>0.33</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.89</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.17</td>
+<td>0.22</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_22_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.79</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td>0.29</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_23_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-3.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.98</td>
+<td>0.31</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.83</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td>0.39</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td>0.12</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_26_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">4.67</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.81</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-3.53</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.93</td>
+<td>0.10</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_27_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.75</td>
+<td>0.46</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.29</td>
+<td>0.18</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_29_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3.42</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.75</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.68</td>
+<td>0.00</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.100 · Cronbach's α=0.755</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>In dieser Situation entscheiden wir uns dazu, nur diejenigen Items zu behalten, für die <span class="math inline">0.2 &lt; P_i &lt; 0.8</span> gilt. Es gibt zwei Methoden, dies umzusetzen: Eine Möglichkeit besteht darin, den Output manuell zu überprüfen, um diejenigen Items zu identifizieren, die dieses Kriterium nicht erfüllen. Diese Items werden dann in einem Vektor gespeichert und anschließend ausgeschlossen. Eine andere, etwas elegantere Lösung, die programmatischer vorgeht, besteht darin, direkt in R diejenigen Items herauszufiltern, die gemäß diesem Kriterium ausgeschlossen werden sollen. Dafür machen wir uns zu Nutzen, dass die Funktion <code>sjPlot::tab_itemscale()</code> uns nicht nur eine schöne HTML-Tabelle ausgibt, sondern diese im Hintergrund auch mit ausgibt. Durch die Verwendung von der Funktion <code>str()</code> können wir genauer betrachten, welche Informationen im Hintergrund ausgegeben werden, wenn wir das Objekt <em>item_analysis_1</em> aufrufen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="at">object =</span> item_analysis_1, <span class="at">vec.len =</span> <span class="dv">1</span>, <span class="at">nchar.max =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 10
+ $ page.style     : chr "&lt;style&gt;\nhtml"| __truncated__
+ $ page.content   : chr "&lt;table&gt;\n&lt;cap"| __truncated__
+ $ page.complete  : chr "&lt;html&gt;\n&lt;head"| __truncated__
+ $ knitr          : chr "&lt;table style="| __truncated__
+ $ file           : NULL
+ $ viewer         : logi TRUE
+ $ df.list        :List of 1
+  ..$ :'data.frame':    29 obs. of  7 variables:
+  .. ..$ Missings           : chr [1:29] "0.00 %" ...
+  .. ..$ Mean               : chr [1:29] "4.09" ...
+  .. ..$ SD                 : chr [1:29] "0.86" ...
+  .. ..$ Skew               : chr [1:29] "-2.28" ...
+  .. ..$ Item Difficulty    : num [1:29] 0.82 0.5 ...
+  .. ..$ Item Discrimination: num [1:29] 0.328 0.248 ...
+  .. ..$ &amp;alpha; if deleted : num [1:29] 0.746 0.749 ...
+ $ index.scores   :'data.frame':    101 obs. of  1 variable:
+  ..$ Score1: num [1:101] 2.69 2.69 ...
+  .. ..- attr(*, "label")= Named chr "Mean icc=0.10"| __truncated__
+  .. .. ..- attr(*, "names")= chr "Score1"
+ $ cronbach.values:List of 1
+  ..$ : num 0.755
+ $ ideal.item.diff:List of 1
+  ..$ : Named num [1:29] 0.6 0.6 ...
+  .. ..- attr(*, "names")= chr [1:29] "ub_01" ...
+ - attr(*, "class")= chr "sjTable"</code></pre>
+</div>
+</div>
+<p>Wie ersichtlich ist, ist der Output als Liste strukturiert und wir benötigen den Eintrag <code>df.list</code>. Danach müssen wir erneut in die Liste indizieren (<code>item_analysis_1$df.list[[1]]</code>). Da wir in diesem Skript mehrmals auf genau diese Itemtabelle zugreifen möchten, ist es ratsam, eine kleine Funktion zu schreiben, die diese Aufgabe übernimmt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>extract_itemtable <span class="ot">&lt;-</span> <span class="cf">function</span>(.data) {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> sjPlot<span class="sc">::</span><span class="fu">tab_itemscale</span>(.data)<span class="sc">$</span>df.list[[<span class="dv">1</span>]] </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># clean_names ändert die Spaltennamen in lowercase und tauscht Leerzeichen mit _</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(<span class="fu">cbind</span>(<span class="at">id_item =</span> <span class="fu">rownames</span>(tab), tab))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">extract_itemtable</span>(data_item_rec))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      id_item missings mean   sd  skew item_difficulty item_discrimination
+ub_01   ub_01   0.00 % 4.09 0.86 -2.28            0.82               0.328
+ub_02   ub_02   0.00 %  2.5 1.38  0.14            0.50               0.248
+ub_03   ub_03   0.00 % 2.29 1.34  0.24            0.46               0.243
+ub_04   ub_04   0.00 % 2.56 1.68 -0.05            0.51               0.153
+ub_05   ub_05   0.00 % 4.33 0.81 -1.92            0.87               0.166
+ub_06   ub_06   0.00 % 2.69 1.62 -0.11            0.54               0.349
+      alpha_if_deleted
+ub_01            0.746
+ub_02            0.749
+ub_03            0.750
+ub_04            0.758
+ub_05            0.753
+ub_06            0.743</code></pre>
+</div>
+</div>
+<p>Jetzt können wir die <code>filter()</code> Funktion des <em>dplyr</em>-Packages nutzen, um die Zeilen zu ermitteln, die in das Auschlusskriterium fallen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>step1_kick_diff <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_rec) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_difficulty <span class="sc">&lt;</span> .<span class="dv">2</span> <span class="sc">|</span> item_difficulty <span class="sc">&gt;</span> .<span class="dv">8</span>) <span class="sc">%&gt;%</span> <span class="co"># `|` ist der ODER Operator in R </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item) <span class="co"># macht das selbe wie `$id_item`(indiziert in den dataframe)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step1_kick_diff)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ub_01"   "ub_05"   "ub_21"   "ub_23_r" "ub_26_r"</code></pre>
+</div>
+</div>
+<p>Anschließend können wir ein neues Objekt erstellen, indem wir die 5 Items aus <code>step1_kick_diff</code> ausgeschlossen haben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_item_s1 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_rec, <span class="sc">-</span><span class="fu">all_of</span>(step1_kick_diff))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data_item_s1 &lt;- data_item_rec[, !colnames(data_item_rec) %in% step1_kick_diff] # Alternative</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="itemanalyse-ii-trennschärfe" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="itemanalyse-ii-trennschärfe"><span class="header-section-number">1.4.3</span> Itemanalyse II: Trennschärfe</h3>
+<p>Nachdem wir in der ersten Itemanalyse hinsichtlich der Itemschwierigkeit fünf Items ausgeschlossen haben, folgt die zweite Itemanalyse hinsichtlich der Itemtrennschärfe.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Schritt II
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Als nächsten Schritt der Itemanalyse widmen wir uns nun der <em>Trennschärfe</em> der Item, also der Übereinstimmung der Differenzierungsfähigkeit eines Items mit dem Testscore der restlichen Items des Fragebogens. Dabei gilt die Faustregel, dass idealerweise <span class="math inline">𝑟_{𝑖𝑡(𝑖)} \geq .4</span> sein sollte. Nach einer sorgfältigen Überprüfung können jedoch auch Items beibehalten werden, bei denen <span class="math inline">𝑟_{𝑖𝑡(𝑖)} \geq .3</span> liegt.</p>
+</div>
+</div>
+<p>In dieser Situation entscheiden wir uns das liberalere Kriterium von <span class="math inline">𝑟_{𝑖𝑡(𝑖)} \geq .3</span> zu wählen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>item_analysis_2 <span class="ot">&lt;-</span> <span class="fu">tab_itemscale</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s1,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">"Zweite Itemanalyse"</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>item_analysis_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Zweite Itemanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.5</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.50</td>
+<td>0.23</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.46</td>
+<td>0.21</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.51</td>
+<td>0.19</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.54</td>
+<td>0.33</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.26</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.84</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.72</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.65</td>
+<td>0.26</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.37</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.32</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.38</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.38</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.37</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.64</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.68</td>
+<td>0.26</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_12_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.56</td>
+<td>0.05</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.73</td>
+<td>0.47</td>
+<td>0.71</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_14_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.95</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.59</td>
+<td>0.51</td>
+<td>0.71</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.74</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.57</td>
+<td>0.14</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.86</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.31</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.57</td>
+<td>0.25</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_17_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.71</td>
+<td>0.18</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.29</td>
+<td>0.33</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td>0.49</td>
+<td>0.71</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.40</td>
+<td>0.34</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_22_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.79</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.76</td>
+<td>0.29</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.83</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td>0.40</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.22</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td>0.14</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_27_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.75</td>
+<td>0.46</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.76</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.20</td>
+<td>0.73</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">ub_29_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">3.42</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">1.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">-0.75</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double; background-color: #f2f2f2;">0.68</td>
+<td>-0.04</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.107 · Cronbach's α=0.737</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Wir greifen erneut auf die zuvor definierte Funktion <code>extract_itemtable()</code> zurück, um die erforderlichen Informationen zu extrahieren. Diesmal filtern wir nach der Variable <em>item_discrimination</em>. Den resultierenden Vektor speichern wir erneut als Objekt und nutzen ihn zur Erstellung eines endgültigen Datensatzes, der nur noch Variablen enthält, die sowohl angemessene Schwierigkeit als auch Trennschärfe aufweisen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>step2_kick_disc <span class="ot">&lt;-</span> <span class="fu">extract_itemtable</span>(data_item_s1) <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(item_discrimination <span class="sc">&lt;</span> .<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>(id_item)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(step2_kick_disc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ub_02"   "ub_03"   "ub_04"   "ub_07"   "ub_11"   "ub_12_r" "ub_15"  
+ [8] "ub_16"   "ub_17_r" "ub_22_r" "ub_25"   "ub_28"   "ub_29_r"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data_item_s2 <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(data_item_s1, <span class="sc">-</span><span class="fu">all_of</span>(step2_kick_disc))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Mit diesem Datensatz können wir nun die finale Itemanalyse durchführen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_itemscale</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">df =</span> data_item_s2,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">factor.groups.titles =</span> <span class="st">"Finale Itemanalyse"</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Finale Itemanalyse</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Row</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Missings</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Mean</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">SD</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Skew</td>
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: italic; font-weight: normal; padding: 0.2cm; border-bottom: 1px solid black;">Item Difficulty</td>
+<td data-quarto-table-cell-role="th">Item Discrimination</td>
+<td data-quarto-table-cell-role="th">α if deleted</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_06</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.11</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.54</td>
+<td>0.41</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_08</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.51</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.36</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.96</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.36</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.35</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.60</td>
+<td>0.38</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.88</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.73</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_14_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.95</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.4</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.59</td>
+<td>0.55</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.18</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.92</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.29</td>
+<td>0.23</td>
+<td>0.76</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">2.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">1.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.44</td>
+<td>0.51</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">ub_20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">2</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.44</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.40</td>
+<td>0.43</td>
+<td>0.74</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">ub_24</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">3.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.93</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">-0.83</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; background-color: #f2f2f2;">0.76</td>
+<td>0.35</td>
+<td>0.75</td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">ub_27_r</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.00 %</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">3.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">-0.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; border-bottom: double;">0.75</td>
+<td>0.56</td>
+<td>0.72</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td colspan="9" style="text-align: right; font-style: italic; border-top: double black;">Mean inter-item-correlation=0.222 · Cronbach's α=0.758</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Zusammenfassung
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Zusammenfassend wurden im Zuge der Itemanalyse insgesamt 18 der 29 Items ausgeschlossen. Am Ende dieses Analyseschritts bleiben somit 11 Items übrig, die für weitere Analysen, insbesondere die explorative Faktorenanalyse (EFA), in Betracht gezogen werden (Details siehe EFA). Die durchschnittliche inter-item-Korrelation von .22 weist darauf hin, dass die Items im Fragebogen in einem moderaten Maß miteinander korrelieren. Dies deutet darauf hin, dass es eine gewisse gemeinsame Varianz zwischen den Items gibt, ohne dass sie übermäßig stark miteinander verbunden sind. Ein Cronbach’s <span class="math inline">\alpha</span> Wert von <span class="math inline">\alpha</span> = .75 lässt darauf schließen, dass der Fragebogen eine akzeptable Reliabilität aufweist.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="zusatz" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="zusatz"><span class="header-section-number">1.5</span> Zusatz</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Alternative Reliabilitätsberechnung: McDonald’s Omega</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Berechnung der Itemvarianz</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Abschließend gibt es noch die Möglichkeit, McDonald´s <span class="math inline">\omega</span> als ein alternatives Reliabilitätsmaß (zusätzlich zu Cronbach´s <span class="math inline">\alpha</span>) zu bestimmen. Wir nutzen dafür wieder eine Funktion aus dem <em>psych</em>-Package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>omega_items <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(data_item_s2, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>omega.tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8306594</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>omega_items<span class="sc">$</span>alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7582772</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>Neben der Berechnung der Itemschwierigkeit und Trennschärfe ist es sinnvoll, auch die Itemvarianz zu analysieren. Die Itemvarianz stellt zwar kein Selektionskriterium dar, da sie nicht standardisiert ist, jedoch ist sie wichtig, um festzustellen, ob Personen in ihrem Antwortverhalten bei einem bestimmten Item überhaupt variieren (ob die Itemvarianz &gt; 0 ist). Zudem ermöglicht die Itemvarianz Vergleiche zwischen verschiedenen Items.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(<span class="fu">var</span>(data_item_s2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    ub_06     ub_08     ub_09     ub_10     ub_13   ub_14_r     ub_18     ub_19 
+2.6148515 2.2800000 1.6295050 1.8499010 1.6455446 1.9675248 1.3279208 2.1742574 
+    ub_20     ub_24   ub_27_r 
+2.0400000 0.8720792 1.4178218 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="ausblick" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="ausblick"><span class="header-section-number">1.6</span> Ausblick</h2>
+<p>Im kommenden Skript setzen wir uns mit der Exploratorischen Faktorenanalyse (EFA) auseinander. Daher ist es sinnvoll, den Zwischenstand bzw. die Ergebnisse der Itemanalyse zu speichern, um nahtlos von diesem Punkt aus fortzufahren. Zu diesem Zweck sichern wir den finale Dataframe <code>data_item_s2</code> als csv-Datei.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(<span class="at">x =</span> data_item_s2, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"data/processed"</span>, <span class="st">"data_item_itemanalysis.csv"</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># oder write.csv()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code></code></pre>
+</section>
+<section id="session-info" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="session-info"><span class="header-section-number">1.7</span> Session Info</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Erweitern für Session Info
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>─ Session info ───────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.3.1 (2023-06-16)
+ os       macOS Sonoma 14.1.1
+ system   aarch64, darwin20
+ ui       X11
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       Europe/Berlin
+ date     2023-11-27
+ pandoc   3.1.4 @ /opt/homebrew/bin/ (via rmarkdown)
+
+─ Packages ───────────────────────────────────────────────────────────────────
+ package * version date (UTC) lib source
+ dplyr   * 1.1.3   2023-09-03 [1] CRAN (R 4.3.0)
+ here    * 1.0.1   2020-12-13 [1] CRAN (R 4.3.0)
+ janitor * 2.2.0   2023-02-02 [1] CRAN (R 4.3.0)
+ psych   * 2.3.9   2023-09-26 [1] CRAN (R 4.3.1)
+ sjmisc  * 2.8.9   2021-12-03 [1] CRAN (R 4.3.0)
+ sjPlot  * 2.8.15  2023-08-17 [1] CRAN (R 4.3.0)
+ skimr   * 2.1.5   2022-12-23 [1] CRAN (R 4.3.0)
+
+ [1] /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library
+
+──────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Einleitung</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./script_efa.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">EFA</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

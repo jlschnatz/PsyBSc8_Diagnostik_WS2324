@@ -1,0 +1,373 @@
+
+# Itemanalyse
+## Einleitung
+
+Im Rahmen dieses Tutorials zur Itemanalyse verwenden wir echte Daten aus einem im vergangenen Semester konstruierten Fragebogen zu **Umweltbewusstsein**, welcher die Einstellung von Personen gegenüber dem Umweltschutz misst. Spezifisch wurde dieses Konstrukt auf Verhaltensebene operationalisiert, wobei mehr oder weniger umweltschützende Verhaltensweisen als Indikator für das Ausmaß des umweltbewussten Handelns betrachtet werden. Neben den 29 Items der Rohfassung des Fragebogens enthält der Datensatz zusätzlich demographische Informationen über das Alter, Geschlecht, Wohnsituation sowie Bildungsgrad der 104 teilnehmenden Personen. In der folgenden Tabelle erhaltet ihr eine Übersicht über die Items des Konstrukts.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+library(dplyr)
+vec_label <- readRDS(here::here("data/raw/data_ub_raw_lab.rds")) %>%
+  dplyr::select(dplyr::starts_with("ub_")) %>%
+  sjlabelled::get_label() 
+
+sjPlot::tab_df(as.data.frame(vec_label), title = "Übersichtstabelle der Items zu <i>Umweltbewusstsein</i>", col.header = " ")
+
+```
+
+## Einlesen der Daten
+
+Der Datensatz ist in diesem Fall als `.rds`-Datei gespeichert und kann mittels der Funktion (`readRDS()`) eingelesen werden.
+
+::: callout-note
+## Information zum Einlesen von Daten
+
+Wenn ihr euren Datensatz aus SoSci-Survey herunterladet, wird dieser in einem anderen Format gespeichert sein (typischerweise entweder .csv, oder .xlsx). Um csv-Dateien (mit entweder -Komma, -Semikolon oder Tab-Separator) einzulesen, können entweder Base-R Funktionen (`read.csv()`, `read.csv2()` bzw. `read.delim()`) oder z.B. Funktionen des *readr-*Packages aus der Familie des [*tidyverse*](https://www.tidyverse.org/) genutzt werden (`read_csv()`, `read_csv2()` und `read_tsv()`). Um Excel-Dateien einlesen zu können, kann das *readxl*-Package genutzt werden (`read_excel()`)
+:::
+
+Ihr habt die Möglichkeit, den Datensatz entweder lokal von euren Computer einzulesen oder alternativ einen Permalink aus dem dazugehörigen [GitHub-Repository](https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324) zu verwenden (dafür ist natürlich eine Internetverbindung erforderlich).
+
+::: panel-tabset
+## Möglichkeit I: Lokal
+
+Ladet den Datensatz aus OLAT herunter und stellt euer Working Directory richtig ein (`setwd()`). Danach kann der Datensatz folgendermaßen eingelesen werden `readRDS("data_ub_raw.rds")`. Alternativ wäre eine allgemeine Empfehlung R-Projects zu nutzen, dann müsst ihr nicht mehr euer Working Directory einstellen und könnt relative Dateipfade nutzen `readRDS("path/to/data/data_ub_raw.rds")`. Wer daran interessiert ist, findet unter diesem [Link](https://r4ds.hadley.nz/workflow-scripts.html#rstudio-projects) weitere Ressourcen.
+
+```{r}
+library(here) # Bei Nutzung von R-Projects zur Nutzung von relativen Pfaden (statt setwd())
+data_raw <- readRDS(here::here("data/raw/data_ub_raw.rds"))
+```
+
+## Möglichkeit II: Link
+
+Durch Verwendung eines Permalinks können die Daten direkt von GitHub abgerufen werden. Dazu muss lediglich der Link als String in die Funktion `url()` eingegeben werden und kann anschließend wie gewohnt eingelesen werden.
+
+```{r}
+permalink <- "https://github.com/jlschnatz/PsyBSc8_Diagnostik_WS2324/raw/95ba618424d0465f7e0bfea4cc5ac840d82ad74e/data/raw/data_ub_raw.rds"
+if (curl::has_internet()) {
+  data_raw <- readRDS(url(permalink))
+}
+```
+:::
+
+Wir laden den gesamten Datensatz und speichern zudem ein Subset des Datensatzes, welches nur die Items zu Umweltbewusstsein enthält. Hilfreiche Funktionen, um einen ersten Überblick zu erhalten, sind zum Beispiel `skim()` oder `str()`.
+
+```{r}
+#| message: false
+library(dplyr) # Datenmanipulation
+library(skimr) # Hilfreich für Überblick von Dataframes
+
+data_item <- data_raw %>% dplyr::select(ub_01:ub_29) # oder select(starts_with("ub_"))
+data_item <- subset(data_raw, select = ub_01:ub_29) # Alternative
+
+# Überblick über den Datensatz
+skimr::skim(data_raw)
+```
+
+Bevor wir mit der deskriptiven Analyse beginnen, sollten wir noch überprüfen, ob es fehlende Werte (*NAs*) im Datensatz gibt.
+
+```{r}
+anyNA(data_item)
+sum(is.na(data_item)) # Alternative
+
+```
+
+In diesem Fall sind 87 fehlende Werte vorhanden. Um die fehlenden Werte genauer zu explorieren, sollte am Rande das *naniar*-Package erwähnt werden, da es einige nützliche Funktionen diesbezüglich enthält. Wir können zum Beispiel über die cases (Proband:innen) hinweg die prozentuale Häufigkeit an Missings visualisieren.
+
+```{r}
+#| fig-width: 5
+#| fig-height: 5
+#| fig-align: center
+
+naniar::gg_miss_case(data_item, show_pct = TRUE, order_cases = FALSE)
+```
+
+Wir sehen, dass drei Proband:innen den kompletten Fragebogen nicht ausgefüllt haben, weswegen mit der Funktion `na.omit()` ausgeschlossen werden.
+
+::: callout-warning
+## Disclaimer zu fehlenden Werten
+
+Es sollte zumindest am Rande erwähnt werden, dass die Funktion `na.omit()` sehr mächtig ist und nur mit Vorsicht verwendet werden sollte. Ohne weitere Überlegungen NAs auszuschließen, deren Fehlen möglicherweise nicht zufällig ist, sondern durch andere (nicht)-erhobene Variablen bedingt sind, kann zu Verzerrungen führen. Im Zweifel sprecht ihr euch am besten mit eurer/eurem Dozent:in ab, wie ihr mit fehlenden Werten umgehen sollt. Falls ihr euch mehr mit dem Thema NAs auseinandersetzen wollt, hier ein spannender [Blogpost](https://www.iriseekhout.com/post/2022-06-28-missingdatamechanisms/).
+:::
+
+```{r}
+data_item <- na.omit(data_item)
+anyNA(data_item)
+```
+
+## Deskriptive Analyse
+
+Bevor wir die Itemanalyse durchführen, wollen wir uns zunächst ein wenig mit den Daten vertraut machen. Hierfür benötigen wir zwei Packages: Das *psych*-Package beinhaltet sehr viele Funktionen und Befehle, die auch für viele andere Analysen hilfreich sind. Das Package *janitor* ist eine bessere Alternative zum Basis-Befehl `table()` und ist besonders informativ bei Häufigkeitstabellen.
+
+::: callout-tip
+## Tipp für die Präsentationen & Hausarbeit
+
+Für die Abschlussberichte, braucht ihr die ganzen deskriptiven Informationen in APA7 formatierten Tabellen. Hierfür eignet sich besonders das Package `sjPlot`. Als Beispiel speichern wir zunächst die die vorherige deskriptive Statistik aller Items als ein Objekt ab. Danach erstellen wir mit einer Funktion des genannten Packages eine schön formatierte Tabelle. Die erstellte Tabelle kann sogar direkt als Word-Dokument abgespeichert werden, um danach noch weiter angepasst zu werden (z.B. Erstellen von Fußnoten, Tabellen-Titel, etc.). Wichtig dabei ist, dass nur die Endung .doc und nicht .docx funktioniert.
+:::
+
+Für die Berechnung deskriptiver Kennwerte (Mittelwert, Standardabweichung, Median, etc.) können wir die `describe()` Funktion des *psych*-Packages verwenden:
+
+```{r}
+#| message: false
+library(psych)
+library(sjPlot)
+descr_data_item <- psych::describe(data_item)
+sjPlot::tab_df(
+  x = descr_data_item, 
+  show.rownames = TRUE,
+  #file = table_descr_item.doc # Speichern als .doc Datei
+    )
+
+```
+
+Wenn wir nur eine spezifische Variable deskriptiv betrachten wollen (z.B. `dd_alter`), kann in der gleichen Funktion die Variable direkt angesteuert werden.
+
+```{r}
+descr_age <- psych::describe(data_raw$dd_alter)
+sjPlot::tab_df(descr_age)
+```
+
+Für alle kategoriellen Daten (z.B. Geschlecht, Wohnort, Bildung) benötigen keine Mittelwerte oder Standardabweichungen, sondern nutzen Häufigkeitsverteilung zur deskriptiven Beschreibung. Hier kommt jetzt das *janitor*-Package zum Einsatz.
+
+```{r}
+#| message: false
+library(janitor)
+descr_sex <- tabyl(data_raw$dd_sex, show_na = FALSE)
+tab_df(descr_sex)
+
+```
+
+Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eines zusätzlichen Arguments möglich.
+
+```{r}
+descr_sex_na <- tabyl(data_raw$dd_sex, show_na = TRUE)
+tab_df(descr_sex_na)
+```
+
+Zudem können wir mit dem *psych*-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des *sjPlot*-Package in einer Tabelle dargestellt werden.
+
+```{r}
+
+descr_age_by_sex <- describeBy(
+  x = data_raw$dd_alter, group = droplevels(data_raw$dd_sex) # Nicht angegebenes Level (Divers) des Faktors entfernen
+  )
+
+tab_dfs(
+  x = descr_age_by_sex,
+  titles = c("Männlich","Weiblich")
+  )
+
+```
+
+Es gibt auch die Möglichkeit mehrere Tabellen in ein Dokument zu packen und diese in einem Word-Dokument zu speichern:
+
+```{r}
+tab_dfs(
+  x = list(descr_age, descr_sex_na),
+  titles = c("Descriptives of Age", "Descriptives of Sex")
+  )
+```
+
+```{r}
+#| eval: false
+tab_dfs(
+  x = list(descr_age, descr_sex),
+  titles = c("Descriptives of Age","Descriptives of Sex"),
+  file = "descriptives_all.doc" # wieder als .doc abspeichern
+  )
+```
+
+## Itemanalyse
+
+### Rekodierung inverser Items
+
+Für die Itemanalyse benötigen wir den Datensatz in denen nur die Items vorhanden sind. Diesen haben wir bereits in einem vorherigen Schritt erstellt. Bevor wir die Itemanalyse jedoch durchführen, müssen wir alle Items, die inverse kodiert sind rekodieren.
+
+::: callout-note
+## Rekodierung leicht gemacht!
+
+Dafür speichern wir alle inversen Items zunächst in einem Vektor ab. Anschließend verwenden wir die `mutate()` Funktion des *dplyr*-Package, mit welcher wir Variablen manupulieren/verändern können. Wir müssen dabei den Zusatz `across()` hinzunehmen, da wir mehreren Variablen gleichzeitig verändern wollen. Das Argument `.cols` gibt dabei an, welche Variablen wir verändern wollen. Mit dem Argument `.fns` spezifizieren wir, welche Funktion wir auf die Variablen anwenden wollen. Wir verwenden die Funktion `rec()` aus dem *sjmisc*-Package. Die etwas ungewöhnliche Schreibweise mit der Tilde `~`und dem `.x` setzt sich wie folgt zusammen: Die Tilde müssen wir immer dann verwenden, wenn wir bei der Funktion, die wir anwenden zusätzlich Argumente spezifizieren (`rec = "rev"`). Das `.x` verwenden wir als Platzhalter für alle Variablen, die wir verändern wollen. Schließlich können wir mit dem `.names` Argument einen Namen für alle veränderten Variablen spezifizieren. Das Prefix `{col}` steht dabei für den ursprünglichen Variablenname. Mit dem Zusatz `{col_r}` wird hängen wir dem Präfix noch ein Suffix an. Das Suffix kennzeichnet dabei, dass wir die Items rekodiert haben.
+:::
+
+```{r}
+#| message: false
+
+library(sjmisc)
+inverse_items <- paste0("ub_", c(12, 14, 17, 22, 23, 26, 27, 29))
+
+data_item_rec <- data_item %>%
+  mutate(across(
+    .cols = all_of(inverse_items), 
+    .fns = ~sjmisc::rec(.x, rec = "rev"),
+    .names = "{.col}_r"
+    )) %>%
+  select(-all_of(inverse_items))
+
+colnames(data_item_rec)
+
+```
+
+Wir sehen, dass die Variablen jetzt nicht mehr in der "richtigen" Reihenfolge sind, da alle rekodierten Items am Ende des Dataframes auftauchen. Wir können die ursprüngliche Reihenfolge der Items wiederherstellen, indem wir diese in einem Vektor spezifizieren. Anschließend verwenden wir wieder die `select()` Funktion und bringen dadurch die Variablen in die gewünschte Reihenfolge.
+
+```{r}
+col_order <- sort(colnames(data_item_rec))
+data_item_rec <- select(data_item_rec, all_of(col_order))
+colnames(data_item_rec)
+
+```
+
+### Itemanalyse I: Schwierigkeit
+
+Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem *sjPlot-*Package:
+
+::: callout-note
+## Schritt I
+
+Im ersten Schritt der Itemanalyse schauen wir uns die Schwierigkeiten der Items an und schließen Items aus, die zu schwer beziehungsweise zu leicht sind. Eine Faustregel, die auch in den Präsentationsfolien zur Itemanalyse erwähnt wurde, besagt, dass wir Items beibehalten sollten, bei denen $0.2 < P_i < 0.8$ gilt. Dabei steht $P_i$ für die Itemschwierigkeit. Von dieser Faustregel kann jedoch auch abgewichen werden bei der Erfassung von Konstrukten mit extremer Streuung oder wenn gezielt besonders schwere oder leichte Items im Konstrukt enthalten sein sollen ($.05 < P_i < 0.95$)
+:::
+
+```{r}
+item_analysis_1 <- tab_itemscale(
+  df = data_item_rec,
+  factor.groups.titles = "Erste Itemanalyse"
+  )
+
+item_analysis_1
+```
+
+In dieser Situation entscheiden wir uns dazu, nur diejenigen Items zu behalten, für die $0.2 < P_i < 0.8$ gilt. Es gibt zwei Methoden, dies umzusetzen: Eine Möglichkeit besteht darin, den Output manuell zu überprüfen, um diejenigen Items zu identifizieren, die dieses Kriterium nicht erfüllen. Diese Items werden dann in einem Vektor gespeichert und anschließend ausgeschlossen. Eine andere, etwas elegantere Lösung, die programmatischer vorgeht, besteht darin, direkt in R diejenigen Items herauszufiltern, die gemäß diesem Kriterium ausgeschlossen werden sollen. Dafür machen wir uns zu Nutzen, dass die Funktion `sjPlot::tab_itemscale()` uns nicht nur eine schöne HTML-Tabelle ausgibt, sondern diese im Hintergrund auch mit ausgibt. Durch die Verwendung von der Funktion `str()` können wir genauer betrachten, welche Informationen im Hintergrund ausgegeben werden, wenn wir das Objekt *item_analysis_1* aufrufen.
+
+```{r}
+str(object = item_analysis_1, vec.len = 1, nchar.max = 30)
+```
+
+Wie ersichtlich ist, ist der Output als Liste strukturiert und wir benötigen den Eintrag `df.list`. Danach müssen wir erneut in die Liste indizieren (`item_analysis_1$df.list[[1]]`). Da wir in diesem Skript mehrmals auf genau diese Itemtabelle zugreifen möchten, ist es ratsam, eine kleine Funktion zu schreiben, die diese Aufgabe übernimmt.
+
+```{r}
+
+extract_itemtable <- function(.data) {
+  tab <- sjPlot::tab_itemscale(.data)$df.list[[1]] 
+  # clean_names ändert die Spaltennamen in lowercase und tauscht Leerzeichen mit _
+  out <- janitor::clean_names(cbind(id_item = rownames(tab), tab))
+  return(out)
+}
+
+
+head(extract_itemtable(data_item_rec))
+
+```
+
+Jetzt können wir die `filter()` Funktion des *dplyr*-Packages nutzen, um die Zeilen zu ermitteln, die in das Auschlusskriterium fallen.
+
+```{r}
+step1_kick_diff <- extract_itemtable(data_item_rec) %>%
+  filter(item_difficulty < .2 | item_difficulty > .8) %>% # `|` ist der ODER Operator in R 
+  dplyr::pull(id_item) # macht das selbe wie `$id_item`(indiziert in den dataframe)
+
+print(step1_kick_diff)
+```
+
+Anschließend können wir ein neues Objekt erstellen, indem wir die 5 Items aus `step1_kick_diff` ausgeschlossen haben.
+
+```{r}
+
+data_item_s1 <- dplyr::select(data_item_rec, -all_of(step1_kick_diff))
+# data_item_s1 <- data_item_rec[, !colnames(data_item_rec) %in% step1_kick_diff] # Alternative
+```
+
+### Itemanalyse II: Trennschärfe
+
+Nachdem wir in der ersten Itemanalyse hinsichtlich der Itemschwierigkeit fünf Items ausgeschlossen haben, folgt die zweite Itemanalyse hinsichtlich der Itemtrennschärfe.
+
+::: callout-note
+## Schritt II
+
+Als nächsten Schritt der Itemanalyse widmen wir uns nun der *Trennschärfe* der Item, also der Übereinstimmung der Differenzierungsfähigkeit eines Items mit dem Testscore der restlichen Items des Fragebogens. Dabei gilt die Faustregel, dass idealerweise $𝑟_{𝑖𝑡(𝑖)} \geq .4$ sein sollte. Nach einer sorgfältigen Überprüfung können jedoch auch Items beibehalten werden, bei denen $𝑟_{𝑖𝑡(𝑖)} \geq .3$ liegt.
+:::
+
+In dieser Situation entscheiden wir uns das liberalere Kriterium von $𝑟_{𝑖𝑡(𝑖)} \geq .3$ zu wählen.
+
+```{r}
+item_analysis_2 <- tab_itemscale(
+  df = data_item_s1,
+  factor.groups.titles = "Zweite Itemanalyse"
+  )
+
+item_analysis_2
+```
+
+Wir greifen erneut auf die zuvor definierte Funktion `extract_itemtable()` zurück, um die erforderlichen Informationen zu extrahieren. Diesmal filtern wir nach der Variable *item_discrimination*. Den resultierenden Vektor speichern wir erneut als Objekt und nutzen ihn zur Erstellung eines endgültigen Datensatzes, der nur noch Variablen enthält, die sowohl angemessene Schwierigkeit als auch Trennschärfe aufweisen.
+
+```{r}
+step2_kick_disc <- extract_itemtable(data_item_s1) %>%
+  dplyr::filter(item_discrimination < .3) %>%
+  dplyr::pull(id_item)
+
+print(step2_kick_disc)
+
+data_item_s2 <- dplyr::select(data_item_s1, -all_of(step2_kick_disc))
+```
+
+Mit diesem Datensatz können wir nun die finale Itemanalyse durchführen.
+
+```{r}
+tab_itemscale(
+  df = data_item_s2,
+  factor.groups.titles = "Finale Itemanalyse"
+  )
+```
+
+::: callout-note
+## Zusammenfassung
+
+Zusammenfassend wurden im Zuge der Itemanalyse insgesamt 18 der 29 Items ausgeschlossen. Am Ende dieses Analyseschritts bleiben somit 11 Items übrig, die für weitere Analysen, insbesondere die explorative Faktorenanalyse (EFA), in Betracht gezogen werden (Details siehe EFA). Die durchschnittliche inter-item-Korrelation von .22 weist darauf hin, dass die Items im Fragebogen in einem moderaten Maß miteinander korrelieren. Dies deutet darauf hin, dass es eine gewisse gemeinsame Varianz zwischen den Items gibt, ohne dass sie übermäßig stark miteinander verbunden sind. Ein Cronbach's $\alpha$ Wert von $\alpha$ = .75 lässt darauf schließen, dass der Fragebogen eine akzeptable Reliabilität aufweist.
+:::
+
+## Zusatz
+
+::: panel-tabset
+## Alternative Reliabilitätsberechnung: McDonald's Omega
+
+Abschließend gibt es noch die Möglichkeit, McDonald´s $\omega$ als ein alternatives Reliabilitätsmaß (zusätzlich zu Cronbach´s $\alpha$) zu bestimmen. Wir nutzen dafür wieder eine Funktion aus dem *psych*-Package.
+
+```{r}
+#| message: false
+#| warning: false
+omega_items <- psych::omega(data_item_s2, plot = FALSE)
+omega_items$omega.tot
+omega_items$alpha
+```
+
+## Berechnung der Itemvarianz
+
+Neben der Berechnung der Itemschwierigkeit und Trennschärfe ist es sinnvoll, auch die Itemvarianz zu analysieren. Die Itemvarianz stellt zwar kein Selektionskriterium dar, da sie nicht standardisiert ist, jedoch ist sie wichtig, um festzustellen, ob Personen in ihrem Antwortverhalten bei einem bestimmten Item überhaupt variieren (ob die Itemvarianz \> 0 ist). Zudem ermöglicht die Itemvarianz Vergleiche zwischen verschiedenen Items.
+
+```{r}
+diag(var(data_item_s2))
+```
+:::
+
+## Ausblick
+
+Im kommenden Skript setzen wir uns mit der Exploratorischen Faktorenanalyse (EFA) auseinander. Daher ist es sinnvoll, den Zwischenstand bzw. die Ergebnisse der Itemanalyse zu speichern, um nahtlos von diesem Punkt aus fortzufahren. Zu diesem Zweck sichern wir den finale Dataframe `data_item_s2` als csv-Datei.
+
+```{r}
+readr::write_csv(x = data_item_s2, file = here("data/processed", "data_item_itemanalysis.csv"))
+# oder write.csv()
+```
+
+```         
+```
+
+## Session Info
+
+::: {.callout-important collapse="true"}
+## Erweitern für Session Info
+
+```{r, echo = FALSE}
+sessioninfo::session_info(pkgs = "attached")
+```
+:::
